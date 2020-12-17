@@ -12,13 +12,13 @@ import java.util.List;
 public class Result {
 
     private List aaData;//list数据集合
-    private int iTotalRecords;//实际的总行数
-    private int  iTotalDisplayRecords;//显示的行数,这个要和上面写的一样
+    private int recordsTotal;//实际的总行数
+    private int  recordsFiltered;//显示的行数,这个要和上面写的一样
 
-    public Result(List aaData, int iTotalRecords, int iTotalDisplayRecords) {
+    public Result(List aaData, int recordsTotal, int recordsFiltered) {
         this.aaData = aaData;
-        this.iTotalRecords = iTotalRecords;
-        this.iTotalDisplayRecords = iTotalDisplayRecords;
+        this.recordsTotal = recordsTotal;
+        this.recordsFiltered = recordsFiltered;
     }
 
     public Result() {
@@ -32,19 +32,19 @@ public class Result {
         this.aaData = aaData;
     }
 
-    public int getiTotalRecords() {
-        return iTotalRecords;
+    public int getRecordsTotal() {
+        return recordsTotal;
     }
 
-    public void setiTotalRecords(int iTotalRecords) {
-        this.iTotalRecords = iTotalRecords;
+    public void setRecordsTotal(int recordsTotal) {
+        this.recordsTotal = recordsTotal;
     }
 
-    public int getiTotalDisplayRecords() {
-        return iTotalDisplayRecords;
+    public int getRecordsFiltered() {
+        return recordsFiltered;
     }
 
-    public void setiTotalDisplayRecords(int iTotalDisplayRecords) {
-        this.iTotalDisplayRecords = iTotalDisplayRecords;
+    public void setRecordsFiltered(int recordsFiltered) {
+        this.recordsFiltered = recordsFiltered;
     }
 }
