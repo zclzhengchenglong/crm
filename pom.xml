@@ -82,6 +82,14 @@
             <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
 
+        <!-- alibaba的fastjson依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.47</version>
+        </dependency>
+
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

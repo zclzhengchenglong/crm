@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -26,9 +28,31 @@ public class SaleClientlossServiceImpl implements SaleClientlossService {
     SaleClientlossMapper saleClientlossMapper;
 
     @Override
-    public PageInfo<SaleClientloss> selectpage(int pageNum, int pageSize, SaleClientloss saleClientloss) {
+    public PageInfo<SaleClientloss> selectpage(int pageNum, int pageSize, SaleClientloss saleClientloss,String datemin,String datemax,String search) {
         PageHelper.startPage(pageNum,pageSize);
         SaleClientlossExample example=new SaleClientlossExample();
+
+
+        SaleClientlossExample.Criteria criteria = example.createCriteria();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        if(datemin!=null&&!datemin.equals("")){
+            try {
+                criteria.andLasttimeGreaterThanOrEqualTo(sdf.parse(datemin));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(datemax!=null&&!datemax.equals("")){
+            try {
+                criteria.andLasttimeLessThanOrEqualTo(sdf.parse(datemax));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(search!=null&&!search.equals("")){
+            criteria.andHandlewayLike("%"+search+"%");
+        }
+
         example.setOrderByClause("LOSSNUM DESC");
         List<SaleClientloss> list=saleClientlossMapper.selectByExample(example);
         PageInfo<SaleClientloss>   pageInfo=new PageInfo<SaleClientloss>(list);

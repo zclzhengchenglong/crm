@@ -30,96 +30,60 @@
 </head>
 <body>
 <article class="page-container">
-	<form action=""  method="post" class="form form-horizontal" id="form-cfeedback-add">
+	<form action=""  method="" class="form form-horizontal" id="form-member-add">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>优先级：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>客户姓名：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="recordfirst" name="recordfirst">
+                <input type="text" width="30%" class="input-text" value="" placeholder="" id="clientname" name="clientname">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>客户编号：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>客户属性：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="hidden" class="input-text" value="" placeholder="" id="backnum" name="backnum">
-                <input type="text" class="input-text" value="" placeholder="" id="clientnum" name="clientnum">
+                <input type="text" class="input-text" value="" placeholder="" id="clientattr" name="clientattr">
+                <input type="hidden" class="input-text" value="" placeholder="" id="clientnum" name="clientnum">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>状态：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>操作人员编号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="employesnum" name="employesnum">
+            </div>
+        </div>
+        <!--<div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>处理方式：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="hidden" class="input-text" value="" placeholder="" id="clientnum" name="clientnum">
+                <input type="text" class="input-text" value="" placeholder="" id="handleway" name="handleway">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>处理措施：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="measures" name="measures">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>操作人员编号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="opnum" name="opnum">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>状态（流失与否）：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input name="how" value="缓流客户" type="radio" id="how1" checked>
-                    <label for="how1">缓流客户</label>
+                    <input name="whetherloss" value="未流失客户" type="radio" id="whetherloss1" checked>
+                    <label for="whetherloss1">未流失客户</label>
                 </div>
                 <div class="radio-box">
-                    <input type="radio" value="忠实客户" id="how2" name="how">
-                    <label for="how2">忠实客户</label>
+                    <input type="radio" value="已流失客户" id="whetherloss2" name="whetherloss">
+                    <label for="whetherloss2">已流失客户</label>
                 </div>
                 <div class="radio-box">
-                    <input type="radio" value="新客户" id="how3" name="how">
-                    <label for="how3">新客户</label>
+                    <input type="radio" value="待确认客户" id="whetherloss3" name="whetherloss">
+                    <label for="whetherloss3">待确认客户</label>
                 </div>
-                <div class="radio-box">
-                    <input type="radio" value="老客户" id="how4" name="how">
-                    <label for="how4">老客户</label>
-                </div>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
-            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                <div class="radio-box">
-                    <input name="feedbacktype" value="投诉" type="radio" id="feedbacktype1" checked>
-                    <label for="feedbacktype1">投诉</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" value="售后服务" id="feedbacktype2" name="feedbacktype">
-                    <label for="feedbacktype2">售后服务</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" value="货物需求" id="feedbacktype3" name="feedbacktype">
-                    <label for="feedbacktype3">货物需求</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" value="操作员需求" id="feedbacktype4" name="feedbacktype">
-                    <label for="feedbacktype4">操作员需求</label>
-                </div>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>反馈时间：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="feedbacktime" name="feedbacktime">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>原因：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="reason" name="reason">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>负责人：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="chargemen" name="chargemen">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>来源：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="source" name="source">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>主题：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="theme" name="theme">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>分析：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="analysis" name="analysis">
             </div>
         </div>
         <div class="row cl">
@@ -133,11 +97,29 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="" placeholder="" id="lasttime" name="lasttime">
             </div>
-        </div>
-		<div class="row cl">
+        </div>-->
+		<!--<div class="row cl">-->
+			<!--<label class="form-label col-xs-4 col-sm-3">所在城市：</label>-->
+			<!--<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">-->
+				<!--<select class="select" size="1" name="city">-->
+					<!--<option value="" selected>请选择城市</option>-->
+					<!--<option value="1">北京</option>-->
+					<!--<option value="2">上海</option>-->
+					<!--<option value="3">广州</option>-->
+				<!--</select>-->
+				<!--</span> </div>-->
+		<!--</div>-->
+		<!--<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">备注：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="beizhu" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+		</div>-->
+		<!--<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-			</div>
+			</div>-->
 		</div>
 	</form>
 </article>
@@ -168,30 +150,26 @@ function RequestParameter(){
 $(function(){
 
 	//根据传递过来的主键编号获取对象，显示原来的信息
-	var backnum=RequestParameter()["backnum"];
-	if(backnum!='undefined'){
-		$("#backnum").val(backnum);
+	var clientnum=RequestParameter()["clientnum"];
+	if(clientnum!='undefined'){
+		$("#clientnum").val(clientnum);
 
 		$.ajax({
 			type: 'post',
-			url: "salecfeedback/get.do" ,
-			data: "backnum="+backnum,                       //修改方法部分代码
+			url: "saleclientmes/get.do" ,
+			data: "clientnum="+clientnum,                       //修改方法部分代码
 			dataType:"json",
 			success: function(obj){
 				console.log(obj);
-                $("#recordfirst").val(obj.recordfirst);
-                $("#how").val(obj.how);
-                $("#feedbacktype").val(obj.feedbacktype);
-                $("#feedbacktime").val(obj.feedbacktime);
-                $("#reason").val(obj.reason);
-                $("#chargemen").val(obj.chargemen);
-                $("#source").val(obj.source);
-                $("#theme").val(obj.theme);
-                $("#analysis").val(obj.analysis);
-                $("#sysnum").val(obj.sysnum);
+				$("#clientname").val(obj.clientname);
+                $("#clientattr").val(obj.clientattr);
+                $("#employesnum").val(obj.employesnum);
+                /*$("#opnum").val(obj.opnum);
                 $("#lasttime").val(obj.lasttime);
+                $("#whetherloss").val(obj.whetherloss);
+                $("#measures").val(obj.measures);
                 $("#clientnum").val(obj.clientnum);
-
+                $("#sysnum").val(obj.sysnum);*/
 			}
 		});
 
@@ -203,9 +181,18 @@ $(function(){
 		increaseArea: '20%'
 	});
 	
-	$("#form-cfeedback-add").validate({
+	$("#form-member-add").validate({
 		rules:{
-            /*whetherloss:{                   //必填设置
+			/*handleway:{
+				required:true,
+			},*/
+            opnum:{
+                required:true,
+            },
+            /*lasttime:{
+                required:true,
+            },
+            whetherloss:{                   //必填设置
                 required:true,
             }
             ,
@@ -214,35 +201,17 @@ $(function(){
             },
             clientnum:{
                 required:true,
-            },
+            },*/
             sysnum:{
-               required:true,
-            }*/
-            clientnum:{
-                required:true,
-            },
-            sysnum:{
-                required:true,
-            },
-            recordfirst:{
-                required:true,
-            },
-            feedbacktime:{
-                required:true,
-            },
-            source:{
-                required:true,
-            },
-            chargemen:{
                 required:true,
             }
-        },
+		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			$("#form-cfeedback-add").ajaxSubmit({
-				url: "salecfeedback/add.do",
+			$("#form-member-add").ajaxSubmit({
+				url: "saleclientmes/add.do",
 				type: "post",
 				dataType:"json",
 				success: function(r) { // data 保存提交后返回的数据，一般为 json 数据
