@@ -1,5 +1,8 @@
 package com.sc.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -33,6 +36,7 @@ public class SaleClientcont implements Serializable {
 
     private BigDecimal sysnum;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lasttime;
 
     private static final long serialVersionUID = 1L;
@@ -133,6 +137,7 @@ public class SaleClientcont implements Serializable {
         this.sysnum = sysnum;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     public Date getLasttime() {
         return lasttime;
     }

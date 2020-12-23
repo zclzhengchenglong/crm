@@ -24,30 +24,29 @@
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 客户中心 <span class="c-gray en">&gt;</span> 客户管理 <a id="btnrefresh" class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
- <form id="myform">
 	<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
+		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
 		-
-		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
+		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
 		<input type="text" class="input-text" style="width:250px" placeholder="输入客户名称、电话、邮箱" id="search" name="search">
-		<button type="button" onclick="search1()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+		<button type="submit" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 	</div>
- </form>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-        <a href="javascript:;" onclick="member_add('添加用户','sale-clientloss-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong id="st"></strong> 条</span> </div>
+        <a href="javascript:;" onclick="member_add('添加用户','sale-clientcontrec-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="80">流失编号</th>
-				<th width="100">客户编号</th>
-				<th width="40">操作人员编号</th>
+				<th width="80">编号</th>
+				<th width="80">联系标题</th>
+				<th width="100">联系时间</th>
+				<!--<th width="40">操作人员编号</th>
 				<th width="90">处理方式</th>
 				<th width="150">处理措施</th>
 				<th width="50">是否流失</th>
 				<th width="130">公司编号</th>
-				<th width="70">修改时间</th>
+				<th width="70">修改时间</th>-->
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -67,91 +66,73 @@
 <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
-var jsonCondition=null;
 $(function(){
-	var startTime=$("#datemin").val();
-	var endTime=$("#datemax").val();
-	var search=$("#search").val();
+
+	var jsonCondition=null;
+
+    var startTime=$("#datemin").val();
+    var endTime=$("#datemax").val();
+    var search=$("#search").val();
+
 	$('.table-sort').dataTable({
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
 		"columns":[
 			{"data": "","bSortable": false,'className': 'dt-body-center','render': function (data, type, row){
-                 return '<input class="checkchild" type="checkbox" value="'+row.lossnum+'" name="ids"/>';
+                 return '<input class="checkchild" type="checkbox" value="'+row.recnum+'" name="ids"/>';
             }},
-			{"data": "lossnum","bSortable": true},
-			{"data": "clientnum","bSortable": true},
-			{"data": "opnum","bSortable": true},
-			{"data": "handleway","bSortable": true},
+			{"data": "recnum","bSortable": true},
+			{"data": "title","bSortable": true},
+			{"data": "time","bSortable": true},
+			/*{"data": "handleway","bSortable": true},
 			{"data": "measures","bSortable": true},
 			{"data": "whetherloss","bSortable": true},
 			{"data": "sysnum","bSortable": true},
-			{"data": "lasttime","bSortable": true},
+			{"data": "lasttime","bSortable": true},*/
 			{"data": "","bSortable":false,"render":function(data,type,row){
-				return '<td class="td-manage"><a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'sale-clientloss-add.html\','+row.lossnum+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  <a title="删除" href="javascript:;" onclick="member_del(this,'+row.lossnum+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
+				return '<td class="td-manage"><a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'sale-clientcontrec-add.html\','+row.recnum+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  <a title="删除" href="javascript:;" onclick="member_del(this,'+row.recnum+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
 			}}
 		],
 		"aoColumnDefs": [
+		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
 		  {"orderable":false,"aTargets":[0]}// 制定列不参与排序
 		],
-		"bProcessing": false, // 是否显示取数据时的那个等待提示
+		//"bProcessing": false, // 是否显示取数据时的那个等待提示
 		"bServerSide": true,//这个用来指明是通过服务端来取数据
-		"sAjaxSource": "saleclientloss/select.do",//这个是请求的地址
+		"sAjaxSource": "saleclientcontrec/select.do",//这个是请求的地址
 		"fnServerData": retrieveData, // 获取数据的处理函数
-
+		"pageLength": 10,   //默认10
+        bPaginate:true,//是否显示（应用）分页器
     });
 
 	// 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
-	//var page={"iDisplayStart":"0","iDisplayLength":"0"};
+	var page={"iDisplayStart":"0","iDisplayLength":"0"};
 	function retrieveData( sAjaxSource,aoData, fnCallback) {
-
-
-		/*$.each(aoData,function(index,item){
-			/!*if (item.name=="iDisplayStart") {
+		$.each(aoData,function(index,item){
+			/*if (item.name=="iDisplayStart") {
 				console.log(item.value);
 				page.iDisplayStart=item.value;
 			}
 			if (item.name=="iDisplayLength") {
 				console.log(item.value);
 				page.iDisplayLength=item.value;
-			}*!/
-		});*/
-
-		if (jsonCondition!=null) {
+			}*/
+		});
+		if (jsonCondition) {
             //将搜索条件和page拼接到一起
-			//$.extend(aoData,jsonCondition);
-
-			if(jsonCondition.datemin){
-				var page={"name":"","value":""};
-				page.name="datemin";
-				page.value=jsonCondition.datemin;
-				aoData.push(page);
-			}
-			if(jsonCondition.datemax){
-				var page={"name":"","value":""};
-				page.name="datemax";
-				page.value=jsonCondition.datemax;
-				aoData.push(page);
-			}
-			if(jsonCondition.search){
-				var page={"name":"","value":""};
-				page.name="search";
-				page.value=jsonCondition.search;
-				aoData.push(page);
-			}
-
+			$.extend(page,jsonCondition);
 		}
 
 		$.ajax({
 			url : sAjaxSource,//这个就是请求地址对应sAjaxSource
-			data : {"aoData":JSON.stringify(aoData)},//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+			//data : JSON.stringify(page),//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+			data : "",
 			type : 'post',
 			dataType : 'json',
 			async : false,
 			success : function(result) {
 				console.log(result);
 				fnCallback(result);//把返回的数据传给这个方法就可以了,datatable会自动绑定数据的
-				$("#st").html(result.iTotalDisplayRecords);
 			},
 			error : function(msg) {
 				aler("ajax Error");
@@ -159,41 +140,41 @@ $(function(){
 		});
 	}
 
-});
 
-/**
- * 搜索按钮的方法
- */
-function search1(){
-	jsonCondition=$("#myform").serializeObject();
-	var table = $('.table-sort').DataTable();
-	table.ajax.reload();
-}
+	/**
+	 * 搜索按钮的方法
+	 */
+	function search(){
+
+		jsonCondition=$("#form").serializeObject();
+		var table = $('.table-sort').DataTable();
+		table.ajax.reload();
+	}
 
 
-/**
- * form表单序列化方法
- */
-$.fn.serializeObject = function()
-{
-	var o = {};
-	var a = this.serializeArray();
-
-	$.each(a, function() {
-		if (o[this.name]) {
-			if (!o[this.name].push) {
-				o[this.name] = [o[this.name]];
+	/**
+	 * form表单序列化方法
+	 */
+	$.fn.serializeObject = function()
+	{
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name]) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
 			}
-			o[this.name].push(this.value || '');
-		} else {
-			o[this.name] = this.value || '';
-
-		}
-	});
-	return o;
-};
+		});
+		return o;
+	};
 
 
+
+});
 /*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
@@ -243,7 +224,7 @@ function member_start(obj,id){
 }
 /*用户-编辑*/
 function member_edit(title,url,id,w,h){
-    url=url+"?lossnum="+id;
+    url=url+"?recnum="+id;
 	layer_show(title,url,w,h);
 }
 /*密码-修改*/
@@ -255,8 +236,8 @@ function member_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: 'saleclientloss/del.do',
-            data: "lossnum="+id,
+			url: 'saleclientcontrec/del.do',
+            data: "recnum="+id,
 			dataType: 'json',
 			success: function(r){
 				$(obj).parents("tr").remove();
@@ -284,7 +265,7 @@ function datadel(){
 			});
 			//window.location.href="${pageContext.request.contextPath}/deleteTags/ids="+res.toArray().join(",")+".action";
 			$.post(
-					"saleclientloss/delAll.do?ids="+res.toArray().join(","),
+					"saleclientcontrec/delAll.do?ids="+res.toArray().join(","),
 					function(data){
 						if(data.code == 200){
 							layer.msg('删除成功',{icon:1,time:1000});
