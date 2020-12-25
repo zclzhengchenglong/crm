@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * 版本：V1.0
  */
 public interface SaleClientcontService {
-    public PageInfo<SaleClientcont> selectpage(int pageNum, int pageSize, SaleClientcont saleClientcont);
+    public PageInfo<SaleClientcont> selectpage(BigDecimal clientnum, int pageNum, int pageSize, SaleClientcont saleClientcont,String datemin,String datemax,String search) ;
 
     public void add(SaleClientcont saleClientcont);
 

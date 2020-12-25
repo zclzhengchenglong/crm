@@ -40,37 +40,15 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>联系时间：</label>
             <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" id="time" name="time" class="input-text Wdate">
                 <input type="hidden" class="input-text" value="" placeholder="" id="recnum" name="recnum">
-                <input type="text" class="input-text" value="" placeholder="" id="time" name="time">
-            </div>
-        </div>
-        <!--<div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>处理措施：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="measures" name="measures">
+                <input type="hidden" class="input-text" value="" placeholder="" id="clientnum" name="clientnum">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>操作人员编号：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="opnum" name="opnum">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>状态（流失与否）：</label>
-            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                <div class="radio-box">
-                    <input name="whetherloss" value="未流失客户" type="radio" id="whetherloss1" checked>
-                    <label for="whetherloss1">未流失客户</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" value="已流失客户" id="whetherloss2" name="whetherloss">
-                    <label for="whetherloss2">已流失客户</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" value="待确认客户" id="whetherloss3" name="whetherloss">
-                    <label for="whetherloss3">待确认客户</label>
-                </div>
+                <input type="text" class="input-text" value="" placeholder="" id="details" name="details">
             </div>
         </div>
         <div class="row cl">
@@ -82,32 +60,15 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>修改时间：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="lasttime" name="lasttime">
+                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" id="lasttime" name="lasttime" class="input-text Wdate">
             </div>
-        </div>-->
-		<!--<div class="row cl">-->
-			<!--<label class="form-label col-xs-4 col-sm-3">所在城市：</label>-->
-			<!--<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">-->
-				<!--<select class="select" size="1" name="city">-->
-					<!--<option value="" selected>请选择城市</option>-->
-					<!--<option value="1">北京</option>-->
-					<!--<option value="2">上海</option>-->
-					<!--<option value="3">广州</option>-->
-				<!--</select>-->
-				<!--</span> </div>-->
-		<!--</div>-->
-		<!--<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">备注：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="beizhu" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-			</div>
-		</div>-->
+        </div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 			</div>
 		</div>
+
 	</form>
 </article>
 
@@ -148,13 +109,12 @@ $(function(){
 			dataType:"json",
 			success: function(obj){
 				console.log(obj);
-				$("#time").val(obj.time);
                 $("#title").val(obj.title);
-                /*$("#lasttime").val(obj.lasttime);
-                $("#whetherloss").val(obj.whetherloss);
-                $("#measures").val(obj.measures);
+                $("#time").val(obj.time);
+                $("#details").val(obj.details);
+                $("#sysnum").val(obj.sysnum);
+                $("#lasttime").val(obj.lasttime);
                 $("#clientnum").val(obj.clientnum);
-                $("#sysnum").val(obj.sysnum);*/
 			}
 		});
 

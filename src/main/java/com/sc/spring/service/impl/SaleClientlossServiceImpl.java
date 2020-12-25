@@ -50,8 +50,21 @@ public class SaleClientlossServiceImpl implements SaleClientlossService {
             }
         }
         if(search!=null&&!search.equals("")){
-            criteria.andHandlewayLike("%"+search+"%");
+            SaleClientlossExample.Criteria criteria1 = example.createCriteria();
+            criteria1.andHandlewayLike("%"+search+"%");
+            example.or(criteria1);
         }
+        if(search!=null&&!search.equals("")){
+            SaleClientlossExample.Criteria criteria2 = example.createCriteria();
+            criteria2.andMeasuresLike("%"+search+"%");
+            example.or(criteria2);
+        }
+        if(search!=null&&!search.equals("")){
+            SaleClientlossExample.Criteria criteria3 = example.createCriteria();
+            criteria3.andWhetherlossLike("%"+search+"%");
+            example.or(criteria3);
+        }
+
 
         example.setOrderByClause("LOSSNUM DESC");
         List<SaleClientloss> list=saleClientlossMapper.selectByExample(example);

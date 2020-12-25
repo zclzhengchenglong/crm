@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -29,9 +31,48 @@ public class SaleClientmesServiceImpl implements SaleClientmesService {
     SaleClientmesMapper saleClientmesMapper;
 
     @Override
-    public PageInfo<SaleClientmes> selectpage(int pageNum, int pageSize, SaleClientmes saleClientmes) {
+    public PageInfo<SaleClientmes> selectpage(int pageNum, int pageSize, SaleClientmes saleClientmes,String datemin,String datemax,String search) {
         PageHelper.startPage(pageNum,pageSize);
         SaleClientmesExample example=new SaleClientmesExample();
+
+        SaleClientmesExample.Criteria criteria= example.createCriteria();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        if(datemin!=null&&!datemin.equals("")){
+            try {
+                criteria.andLasttimeGreaterThanOrEqualTo(sdf.parse(datemin));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(datemax!=null&&!datemax.equals("")){
+            try {
+                criteria.andLasttimeLessThanOrEqualTo(sdf.parse(datemax));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(search!=null&&!search.equals("")){
+            SaleClientmesExample.Criteria criteria1= example.createCriteria();
+            criteria1.andClientnameLike("%"+search+"%");
+            example.or(criteria1);
+        }
+        if(search!=null&&!search.equals("")){
+            SaleClientmesExample.Criteria criteria2= example.createCriteria();
+            criteria2.andOwnerLike("%"+search+"%");
+            example.or(criteria2);
+        }
+
+        if(search!=null&&!search.equals("")){
+            SaleClientmesExample.Criteria criteria3= example.createCriteria();
+            criteria3.andBankLike("%"+search+"%");
+            example.or(criteria3);
+        }
+        if(search!=null&&!search.equals("")){
+            SaleClientmesExample.Criteria criteria4= example.createCriteria();
+            criteria4.andPaywayLike("%"+search+"%");
+            example.or(criteria4);
+        }
+
         example.setOrderByClause("CLIENTNUM DESC");
         List<SaleClientmes> list=saleClientmesMapper.selectByExample(example);
         PageInfo<SaleClientmes>   pageInfo=new PageInfo<SaleClientmes>(list);

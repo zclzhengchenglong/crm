@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * 版本：V1.0
  */
 public interface SaleCfeedbackService {
-    public PageInfo<SaleCfeedback> selectpage(int pageNum, int pageSize, SaleCfeedback saleCfeedback);
+    public PageInfo<SaleCfeedback> selectpage(BigDecimal clientnum, int pageNum, int pageSize, SaleCfeedback saleCfeedback,String datemin,String datemax,String search);
 
     public void add(SaleCfeedback saleCfeedback);
 

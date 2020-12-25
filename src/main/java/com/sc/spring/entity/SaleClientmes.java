@@ -14,7 +14,7 @@ import java.util.Date;
 public class SaleClientmes implements Serializable {
     private BigDecimal clientnum;
 
-    private String clientname;
+    private String clientname;      //1
 
     private String clientattr;
 
@@ -24,7 +24,7 @@ public class SaleClientmes implements Serializable {
 
     private String leader;
 
-    private String owner;
+    private String owner;       //2
 
     private BigDecimal employesnum;
 
@@ -44,7 +44,7 @@ public class SaleClientmes implements Serializable {
 
     private String fax;
 
-    private String bank;
+    private String bank;    //3
 
     private BigDecimal bankaccount;
 
@@ -55,7 +55,7 @@ public class SaleClientmes implements Serializable {
 
     private BigDecimal sicnum;
 
-    private String payway;
+    private String payway;      //4
 
     private String effective;
 

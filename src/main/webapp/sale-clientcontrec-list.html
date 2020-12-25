@@ -19,38 +19,40 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>客户管理</title>
+<title>客户联系记录管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 客户中心 <span class="c-gray en">&gt;</span> 客户管理 <a id="btnrefresh" class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 客户中心 <span class="c-gray en">&gt;</span> 客户联系记录管理 <a id="btnrefresh" class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-	<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
-		-
-		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<input type="text" class="input-text" style="width:250px" placeholder="输入客户名称、电话、邮箱" id="search" name="search">
-		<button type="submit" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
-	</div>
+	<a style="color: #00a65a" href="sale-clientmes-list.html"><i class="Hui-iconfont">返回客户信息</i></a>
+	<form id="myform">
+		<div class="text-c"> 日期范围：
+			<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
+			-
+			<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
+			<input type="hidden" id="clientnum" name="clientnum">
+			<input type="text" class="input-text" style="width:250px" placeholder="输入联系内容" id="search" name="search">
+			<button type="button" onclick="search1()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+		</div>
+	</form>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-        <a href="javascript:;" onclick="member_add('添加用户','sale-clientcontrec-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+        <a href="javascript:;" onclick="member_add('添加联系记录','sale-clientcontrec-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加联系记录</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="80">编号</th>
+				<th width="70">编号</th>
 				<th width="80">联系标题</th>
 				<th width="100">联系时间</th>
-				<!--<th width="40">操作人员编号</th>
-				<th width="90">处理方式</th>
-				<th width="150">处理措施</th>
-				<th width="50">是否流失</th>
-				<th width="130">公司编号</th>
-				<th width="70">修改时间</th>-->
-				<th width="100">操作</th>
+				<th width="75">客户编号</th>
+				<th width="350">内容</th>
+				<th width="75">公司编号</th>
+				<th>修改时间</th>
+				<th width="50">操作</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="text-c">
 		</tbody>
 	</table>
 	</div>
@@ -66,13 +68,27 @@
 <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+function RequestParameter(){
+	var url = window.location.search; //获取url中"?"符后的字串
+	var theRequest = new Object();
+	if (url.indexOf("?") != -1) {
+		var str = url.substr(1);
+		var strs = str.split("&");
+		for(var i = 0; i < strs.length; i ++) {
+			theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+		}
+	}
+	return theRequest}
+
+
+
+var jsonCondition=null;
 $(function(){
-
-	var jsonCondition=null;
-
     var startTime=$("#datemin").val();
     var endTime=$("#datemax").val();
     var search=$("#search").val();
+	var clientnum1=RequestParameter()["clientnum"];
+	$("#clientnum").val(clientnum1);
 
 	$('.table-sort').dataTable({
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
@@ -84,11 +100,10 @@ $(function(){
 			{"data": "recnum","bSortable": true},
 			{"data": "title","bSortable": true},
 			{"data": "time","bSortable": true},
-			/*{"data": "handleway","bSortable": true},
-			{"data": "measures","bSortable": true},
-			{"data": "whetherloss","bSortable": true},
+			{"data": "clientnum","bSortable": true},
+			{"data": "details","bSortable": true},
 			{"data": "sysnum","bSortable": true},
-			{"data": "lasttime","bSortable": true},*/
+			{"data": "lasttime","bSortable": true},
 			{"data": "","bSortable":false,"render":function(data,type,row){
 				return '<td class="td-manage"><a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'sale-clientcontrec-add.html\','+row.recnum+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  <a title="删除" href="javascript:;" onclick="member_del(this,'+row.recnum+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
 			}}
@@ -97,7 +112,7 @@ $(function(){
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
 		  {"orderable":false,"aTargets":[0]}// 制定列不参与排序
 		],
-		//"bProcessing": false, // 是否显示取数据时的那个等待提示
+		"bProcessing": false, // 是否显示取数据时的那个等待提示
 		"bServerSide": true,//这个用来指明是通过服务端来取数据
 		"sAjaxSource": "saleclientcontrec/select.do",//这个是请求的地址
 		"fnServerData": retrieveData, // 获取数据的处理函数
@@ -118,21 +133,49 @@ $(function(){
 				page.iDisplayLength=item.value;
 			}*/
 		});
-		if (jsonCondition) {
-            //将搜索条件和page拼接到一起
-			$.extend(page,jsonCondition);
+
+		var page1={"name":"","value":""};
+		page1.name="clientnum";
+		page1.value=$("#clientnum").val();         //1111111111111
+		aoData.push(page1)
+
+
+		if (jsonCondition!=null) {
+			//将搜索条件和page拼接到一起
+			//$.extend(aoData,jsonCondition);
+
+			if(jsonCondition.datemin){
+				var page={"name":"","value":""};
+				page.name="datemin";
+				page.value=jsonCondition.datemin;
+				aoData.push(page);
+			}
+			if(jsonCondition.datemax){
+				var page={"name":"","value":""};
+				page.name="datemax";
+				page.value=jsonCondition.datemax;
+				aoData.push(page);
+			}
+			if(jsonCondition.search){
+				var page={"name":"","value":""};
+				page.name="search";
+				page.value=jsonCondition.search;
+				aoData.push(page);
+			}
+
 		}
 
 		$.ajax({
 			url : sAjaxSource,//这个就是请求地址对应sAjaxSource
 			//data : JSON.stringify(page),//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
-			data : "",
+			data : {"aoData":JSON.stringify(aoData)},
 			type : 'post',
 			dataType : 'json',
 			async : false,
 			success : function(result) {
 				console.log(result);
 				fnCallback(result);//把返回的数据传给这个方法就可以了,datatable会自动绑定数据的
+				$("#st").html(result.iTotalDisplayRecords);
 			},
 			error : function(msg) {
 				aler("ajax Error");
@@ -140,41 +183,38 @@ $(function(){
 		});
 	}
 
-
-	/**
-	 * 搜索按钮的方法
-	 */
-	function search(){
-
-		jsonCondition=$("#form").serializeObject();
-		var table = $('.table-sort').DataTable();
-		table.ajax.reload();
-	}
-
-
-	/**
-	 * form表单序列化方法
-	 */
-	$.fn.serializeObject = function()
-	{
-		var o = {};
-		var a = this.serializeArray();
-		$.each(a, function() {
-			if (o[this.name]) {
-				if (!o[this.name].push) {
-					o[this.name] = [o[this.name]];
-				}
-				o[this.name].push(this.value || '');
-			} else {
-				o[this.name] = this.value || '';
-			}
-		});
-		return o;
-	};
-
-
-
 });
+/**
+ * 搜索按钮的方法
+ */
+function search1(){
+	jsonCondition=$("#myform").serializeObject();
+	var table = $('.table-sort').DataTable();
+	table.ajax.reload();
+}
+
+
+/**
+ * form表单序列化方法
+ */
+$.fn.serializeObject = function()
+{
+	var o = {};
+	var a = this.serializeArray();
+
+	$.each(a, function() {
+		if (o[this.name]) {
+			if (!o[this.name].push) {
+				o[this.name] = [o[this.name]];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+
+		}
+	});
+	return o;
+};
 /*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
@@ -276,7 +316,7 @@ function datadel(){
 						}else{
 							layer.msg('删除失败',{icon:2,time:1000});
 						}
-						// window.location.reload();
+						window.location.reload();
 					}
 			);
 		}, function(){

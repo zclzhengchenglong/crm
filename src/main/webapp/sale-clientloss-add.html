@@ -82,27 +82,9 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>修改时间：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="lasttime" name="lasttime">
-            </div>
+                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" id="lasttime" name="lasttime" class="input-text Wdate">
+             </div>
         </div>
-		<!--<div class="row cl">-->
-			<!--<label class="form-label col-xs-4 col-sm-3">所在城市：</label>-->
-			<!--<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">-->
-				<!--<select class="select" size="1" name="city">-->
-					<!--<option value="" selected>请选择城市</option>-->
-					<!--<option value="1">北京</option>-->
-					<!--<option value="2">上海</option>-->
-					<!--<option value="3">广州</option>-->
-				<!--</select>-->
-				<!--</span> </div>-->
-		<!--</div>-->
-		<!--<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">备注：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="beizhu" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-			</div>
-		</div>-->
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">

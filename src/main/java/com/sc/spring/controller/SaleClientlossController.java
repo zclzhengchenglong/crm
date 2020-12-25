@@ -55,7 +55,7 @@ public class SaleClientlossController {
             if (obj.get("name").equals("sEcho"))
             {
                 sEcho = obj.getIntValue("value");
-        }
+            }
             if (obj.get("name").equals("iDisplayStart"))
             {
                 iDisplayStart = obj.getIntValue("value");

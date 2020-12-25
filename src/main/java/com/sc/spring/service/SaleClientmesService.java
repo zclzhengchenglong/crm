@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * 版本：V1.0
  */
 public interface SaleClientmesService {
-    public PageInfo<SaleClientmes> selectpage(int pageNum, int pageSize, SaleClientmes saleClientmes);
+    public PageInfo<SaleClientmes> selectpage(int pageNum, int pageSize, SaleClientmes saleClientmes,String datemin,String datemax,String search);
 
     public void add(SaleClientmes saleClientmes);
 

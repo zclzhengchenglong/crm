@@ -1,8 +1,10 @@
 package com.sc.spring.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.sc.spring.entity.R;
-import com.sc.spring.entity.Result;
+import com.sc.spring.entity.ResultNew;
 import com.sc.spring.entity.SaleClientmes;
 import com.sc.spring.service.SaleClientmesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +31,57 @@ public class SaleClientmesController {
 
     @RequestMapping("/select.do")
     @ResponseBody
-    public Result select(@RequestParam(defaultValue = "1") int iDisplayStart,
-                         @RequestParam(defaultValue = "10") int iDisplayLength){
-        PageInfo<SaleClientmes> pageInfo = saleClientmesService.selectpage(iDisplayStart, iDisplayLength, null);
-        Result r=new Result();
-        r.setAaData(pageInfo.getList());
-        r.setRecordsTotal(20);
-        r.setRecordsFiltered(20);
-        return r;
+    public ResultNew select(@RequestParam String aoData){
+        System.out.println("+++++++++++++++++++++++++"+aoData);
+
+        JSONArray jsonarray = JSONArray.parseArray(aoData);
+        int sEcho = 1; //当前第几页
+
+        String datemin = null; //开始日期
+        String datemax = null; //结束日期
+        String search = null; // 搜索
+
+        int iDisplayStart = 0; // 起始索引
+        int iDisplayLength = 0; // 每页显示的行数
+
+        for (int i = 0; i < jsonarray.size(); i++) {
+            JSONObject obj = (JSONObject) jsonarray.get(i);
+            if (obj.get("name").equals("sEcho"))
+            {
+                sEcho = obj.getIntValue("value");
+            }
+            if (obj.get("name").equals("iDisplayStart"))
+            {
+                iDisplayStart = obj.getIntValue("value");
+            }
+            if (obj.get("name").equals("iDisplayLength"))
+            {
+                iDisplayLength = obj.getIntValue("value");
+            }
+            if (obj.get("name").equals("search"))
+            {
+                search = obj.getString("value");
+            }
+            if (obj.get("name").equals("datemin"))
+            {
+                datemin = obj.getString("value");
+            }
+
+            if (obj.get("name").equals("datemax"))
+            {
+                datemax = obj.getString("value");
+            }
+        }
+
+        PageInfo<SaleClientmes> pageInfo = saleClientmesService.selectpage(iDisplayStart/iDisplayLength+1, iDisplayLength, null,datemin,datemax,search);
+
+        ResultNew resultNew=new ResultNew();
+        resultNew.setsEcho(sEcho);// 当前第几页
+        resultNew.setiTotalDisplayRecords(pageInfo.getTotal());//获取总条数
+        resultNew.setiTotalRecords(pageInfo.getList().size());//每页显示的行数
+        resultNew.setAaData(pageInfo.getList());//集合数据
+
+        return resultNew;
     }
 
 
