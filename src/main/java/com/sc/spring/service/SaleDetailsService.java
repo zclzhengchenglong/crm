@@ -12,7 +12,7 @@ import com.sc.spring.entity.SaleDetails;
  * 版本：V1.0
  */
 public interface SaleDetailsService {
-    public PageInfo<SaleDetails> selectpage(int pageNum, int pageSize, SaleDetails SaleDetails);
+    public PageInfo<SaleDetails> selectpage(int pageNum, int pageSize, SaleDetails SaleDetails,String datemin,String datemax,String search);
 
     public void add(SaleDetails SaleDetails);
 

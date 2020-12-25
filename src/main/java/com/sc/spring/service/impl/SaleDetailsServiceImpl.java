@@ -4,12 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sc.spring.entity.SaleDetails;
 import com.sc.spring.entity.SaleDetailsExample;
-import com.sc.spring.entity.SaleList;
 import com.sc.spring.mapper.SaleDetailsMapper;
 import com.sc.spring.service.SaleDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -26,9 +27,32 @@ public class SaleDetailsServiceImpl implements SaleDetailsService {
 
 
     @Override
-    public PageInfo<SaleDetails> selectpage(int pageNum, int pageSize, SaleDetails SaleDetails) {
+    public PageInfo<SaleDetails> selectpage(int pageNum, int pageSize, SaleDetails SaleDetails,String datemin,String datemax,String search) {
         PageHelper.startPage(pageNum,pageSize);
         SaleDetailsExample example=new SaleDetailsExample();
+
+
+        SaleDetailsExample.Criteria criteria = example.createCriteria();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println("2222222222222222"+sdf);
+        if(datemin!=null&&!datemin.equals("")){
+            try {
+                criteria.andSaleLastdateGreaterThanOrEqualTo(sdf.parse(datemin));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(datemax!=null&&!datemax.equals("")){
+            try {
+                criteria.andSaleLastdateLessThanOrEqualTo(sdf.parse(datemax));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(search!=null&&!search.equals("")){
+            criteria.andSaleComidLike("%"+search+"%");
+        }
+
         example.setOrderByClause("SALE_DID DESC");
         List<SaleDetails> list=saleDetailsMapper.selectByExample(example);
         PageInfo<SaleDetails>   pageInfo=new PageInfo<SaleDetails>(list);

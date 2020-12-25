@@ -9,7 +9,8 @@ import com.sc.spring.service.SaleListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -25,9 +26,32 @@ public class SaleListServiceImpl implements SaleListService {
     SaleListMapper saleListMapper;
 
     @Override
-    public PageInfo<SaleList> selectpage(int pageNum, int pageSize, SaleList SaleList) {
+    public PageInfo<SaleList> selectpage(int pageNum, int pageSize, SaleList SaleList,String datemin,String datemax,String search) {
         PageHelper.startPage(pageNum,pageSize);
         SaleListExample example=new SaleListExample();
+
+
+        SaleListExample.Criteria criteria = example.createCriteria();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println("2222222222222222"+sdf);
+        if(datemin!=null&&!datemin.equals("")){
+            try {
+                criteria.andSaleLastdateGreaterThanOrEqualTo(sdf.parse(datemin));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(datemax!=null&&!datemax.equals("")){
+            try {
+                criteria.andSaleLastdateLessThanOrEqualTo(sdf.parse(datemax));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(search!=null&&!search.equals("")){
+            criteria.andSaleComidLike("%"+search+"%");
+        }
+
         example.setOrderByClause("SALE_ID DESC");
         List<SaleList> list=saleListMapper.selectByExample(example);
         PageInfo<SaleList>   pageInfo=new PageInfo<SaleList>(list);
