@@ -407,4 +407,35 @@
       LASTCHANGE_TIME = #{lastchangeTime,jdbcType=TIMESTAMP}
     where WORKER_ID = #{workerId,jdbcType=DECIMAL}
   </update>
+  <!--<resultMap id="sysusermesmap" type="com.sc.spring.entity.SysUsermes">-->
+    <!--<id column="DETAIL_NO" jdbcType="DECIMAL" property="detailNo" />-->
+    <!--<result column="SMS_NUMNER" jdbcType="DECIMAL" property="smsNumner" />-->
+    <!--<result column="RECEIVER_NUMBER" jdbcType="DECIMAL" property="receiverNumber" />-->
+    <!--<result column="MESSAGE_STATUS" jdbcType="VARCHAR" property="messageStatus" />-->
+    <!--<result column="COMPANY_NUMBER" jdbcType="DECIMAL" property="companyNumber" />-->
+    <!--<result column="LASTTIME" jdbcType="TIMESTAMP" property="lasttime" />-->
+
+    <!--<association property="officemes" javaType="com.sc.spring.entity.Officemes">-->
+      <!--<id column="OFFICE_ID" jdbcType="DECIMAL" property="officeId" />-->
+      <!--<result column="TITLE" jdbcType="VARCHAR" property="title" />-->
+      <!--<result column="CONTENT1" jdbcType="VARCHAR" property="content1" />-->
+      <!--<result column="SENDER" jdbcType="VARCHAR" property="sender" />-->
+    <!--</association>-->
+  <!--</resultMap>-->
+
+  <!--<select id="selectOfficeMesdetAndMes" parameterType="com.sc.spring.entity.Officemesdet"-->
+          <!--resultMap="officeMesdetMap">-->
+    <!--select * from OFFICE_MESDET omd-->
+    <!--INNER JOIN OFFICE_MES oms-->
+    <!--on  OMD.SMS_NUMNER=OMS.OFFICE_ID-->
+    <!--<where>-->
+      <!--<if test="messageStatus!=null">-->
+        <!--oms.TITLE like #{messageStatus}-->
+        <!--or-->
+        <!--oms.sender like #{messageStatus}-->
+      <!--</if>-->
+    <!--</where>-->
+    <!--order by omd.DETAIL_NO DESC-->
+
+  <!--</select>-->
 </mapper>

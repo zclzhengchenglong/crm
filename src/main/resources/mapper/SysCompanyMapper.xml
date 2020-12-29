@@ -5,7 +5,7 @@
     <id column="SYS_COMPANY_ID" jdbcType="DECIMAL" property="sysCompanyId" />
     <result column="SYS_COMPANY_NAME" jdbcType="VARCHAR" property="sysCompanyName" />
     <result column="SYS_COMPANY_DM" jdbcType="VARCHAR" property="sysCompanyDm" />
-    <result column="SYS_COMPANY_@" jdbcType="VARCHAR" property="sysCompany" />
+    <result column="SYS_COMPANY" jdbcType="VARCHAR" property="sysCompany" />
     <result column="SYS_COMPANY_DH" jdbcType="VARCHAR" property="sysCompanyDh" />
     <result column="SYS_COMPANY_HONG" jdbcType="VARCHAR" property="sysCompanyHong" />
     <result column="SYS_COMPANY_PHONE" jdbcType="VARCHAR" property="sysCompanyPhone" />
@@ -76,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    SYS_COMPANY_ID, SYS_COMPANY_NAME, SYS_COMPANY_DM, SYS_COMPANY_@, SYS_COMPANY_DH, 
+    SYS_COMPANY_ID, SYS_COMPANY_NAME, SYS_COMPANY_DM, SYS_COMPANY, SYS_COMPANY_DH,
     SYS_COMPANY_HONG, SYS_COMPANY_PHONE, SYS_COMPANY_YPHONE, SYS_COMPANY_CZ, SYS_COMPANY_YH, 
     SYS_COMPANY_YHZH, SYS_COMPANY_YXW, SYS_COMPANY_BZXX, LASTTIME
   </sql>
@@ -111,7 +111,7 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="SYS_COMPANY_ID" keyProperty="sysCompanyId" parameterType="com.sc.spring.entity.SysCompany" useGeneratedKeys="true">
-    insert into SYS_COMPANY (SYS_COMPANY_NAME, SYS_COMPANY_DM, SYS_COMPANY_@, 
+    insert into SYS_COMPANY (SYS_COMPANY_NAME, SYS_COMPANY_DM, SYS_COMPANY,
       SYS_COMPANY_DH, SYS_COMPANY_HONG, SYS_COMPANY_PHONE, 
       SYS_COMPANY_YPHONE, SYS_COMPANY_CZ, SYS_COMPANY_YH, 
       SYS_COMPANY_YHZH, SYS_COMPANY_YXW, SYS_COMPANY_BZXX, 
@@ -132,7 +132,7 @@
         SYS_COMPANY_DM,
       </if>
       <if test="sysCompany != null">
-        SYS_COMPANY_@,
+        SYS_COMPANY,
       </if>
       <if test="sysCompanyDh != null">
         SYS_COMPANY_DH,
@@ -226,7 +226,7 @@
         SYS_COMPANY_DM = #{record.sysCompanyDm,jdbcType=VARCHAR},
       </if>
       <if test="record.sysCompany != null">
-        SYS_COMPANY_@ = #{record.sysCompany,jdbcType=VARCHAR},
+        SYS_COMPANY = #{record.sysCompany,jdbcType=VARCHAR},
       </if>
       <if test="record.sysCompanyDh != null">
         SYS_COMPANY_DH = #{record.sysCompanyDh,jdbcType=VARCHAR},
@@ -268,7 +268,7 @@
     set SYS_COMPANY_ID = #{record.sysCompanyId,jdbcType=DECIMAL},
       SYS_COMPANY_NAME = #{record.sysCompanyName,jdbcType=VARCHAR},
       SYS_COMPANY_DM = #{record.sysCompanyDm,jdbcType=VARCHAR},
-      SYS_COMPANY_@ = #{record.sysCompany,jdbcType=VARCHAR},
+      SYS_COMPANY = #{record.sysCompany,jdbcType=VARCHAR},
       SYS_COMPANY_DH = #{record.sysCompanyDh,jdbcType=VARCHAR},
       SYS_COMPANY_HONG = #{record.sysCompanyHong,jdbcType=VARCHAR},
       SYS_COMPANY_PHONE = #{record.sysCompanyPhone,jdbcType=VARCHAR},
@@ -293,7 +293,7 @@
         SYS_COMPANY_DM = #{sysCompanyDm,jdbcType=VARCHAR},
       </if>
       <if test="sysCompany != null">
-        SYS_COMPANY_@ = #{sysCompany,jdbcType=VARCHAR},
+        SYS_COMPANY = #{sysCompany,jdbcType=VARCHAR},
       </if>
       <if test="sysCompanyDh != null">
         SYS_COMPANY_DH = #{sysCompanyDh,jdbcType=VARCHAR},
@@ -332,7 +332,7 @@
     update SYS_COMPANY
     set SYS_COMPANY_NAME = #{sysCompanyName,jdbcType=VARCHAR},
       SYS_COMPANY_DM = #{sysCompanyDm,jdbcType=VARCHAR},
-      SYS_COMPANY_@ = #{sysCompany,jdbcType=VARCHAR},
+      SYS_COMPANY = #{sysCompany,jdbcType=VARCHAR},
       SYS_COMPANY_DH = #{sysCompanyDh,jdbcType=VARCHAR},
       SYS_COMPANY_HONG = #{sysCompanyHong,jdbcType=VARCHAR},
       SYS_COMPANY_PHONE = #{sysCompanyPhone,jdbcType=VARCHAR},

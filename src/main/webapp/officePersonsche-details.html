@@ -1,0 +1,209 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>添加短消息 - H-ui.admin v3.1</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<article class="page-container">
+	<form action=""  method="post" class="form form-horizontal" id="officePersonsche-add">
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>主题：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="hidden" class="input-text" value="" placeholder="" id="seId" name="seId">
+				<input type="text" class="input-text" value="" placeholder="请填写日程主题" id="arrangeTheTheme" name="arrangeTheTheme">
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss' })" id="startDate" name="startDate" class="input-text Wdate" style="width:120px;">
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>结束时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<!--<input type="" class="input-text" value="" placeholder="请选择日程结束时间" id="startTime" name="startTime">-->
+				<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss' })" id="startTime" name="startTime" class="input-text Wdate" style="width:120px;">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>负责人编号：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" id="fillInThePersonnelNumber"  name="fillInThePersonnelNumber">
+					<option value="" selected>请选择负责人编号</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+				</select>
+				</span>
+			</div>
+		</div>
+
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>重要程度：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" id="arrangementCategroy" name="arrangementCategroy">
+					<option value="" selected>请选择接重要程度</option>
+					<option value="一般">一般</option>
+					<option value="重要">重要</option>
+					<option value="非常重要">非常重要</option>
+				</select>
+				</span>
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>日程描述：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="arrangementDescription" id="arrangementDescription" cols="arrangementDescription" rows="" class="textarea"  placeholder="请对日程进行描述...最少输入10个字符" onKeyUp="$.Huitextarealength(this,300)"></textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/300</p>
+			</div>
+		</div>
+		<!--<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				<input class="btn btn-primary radius" type="reset" value="&nbsp;&nbsp;重置&nbsp;&nbsp;">
+			</div>
+
+		</div>-->
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+function RequestParameter(){
+	var url = window.location.search; //获取url中"?"符后的字串
+	var theRequest = new Object();
+	if (url.indexOf("?") != -1) {
+
+
+		var str = url.substr(1);
+		var strs = str.split("&");
+		for(var i = 0; i < strs.length; i ++) {
+			theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+		}
+	}
+	return theRequest}
+
+$(function(){
+
+	//根据传递过来的主键编号获取对象，显示原来的信息
+        var seId=RequestParameter()["seId"];
+        if(seId!='undefined'){
+            $("#seId").val(seId);
+
+            $.ajax({
+                type: 'post',
+                url: "officePersonsche/get.do" ,       //修改
+                data: "seId="+seId,
+                dataType:"json",
+                success: function(obj){
+                    console.log(obj);
+                    //取到需要的数据
+                    $("#arrangeTheTheme").val(obj.arrangeTheTheme);
+                    $("#startDate").val(obj.startDate);
+					$("#startTime").val(obj.startTime);
+                    $("#fillInThePersonnelNumber").val(obj.fillInThePersonnelNumber);
+					$("#arrangementCategroy").val(obj.arrangementCategroy);
+					$("#arrangementDescription").text(obj.arrangementDescription);
+                }
+            });
+
+        }
+
+
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#officePersonsche-add").validate({
+		rules:{
+			arrangeTheTheme:{                  //必填设置
+                required:true,
+            },
+			startDate:{
+				required:true,
+			},
+			startTime:{
+                required:true,
+            },
+			fillInThePersonnelNumber:{
+				required:true,
+			}
+			,
+			arrangementCategroy:{
+				required:true,
+			},
+			arrangementDescription:{
+				required:true,
+			}
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			$("#officePersonsche-add").ajaxSubmit({
+				url: "officePersonsche/add.do",
+				type: "post",
+				dataType:"json",
+				success: function(r) { // data 保存提交后返回的数据，一般为 json 数据
+					console.log(r)
+					// 此处可对 data 作相关处理
+					layer.alert(r.msg, {icon: 6,title: "提示"},function(){
+						var index = parent.layer.getFrameIndex(window.name);
+						window.parent.location.reload();
+						parent.layer.close(index);
+					});
+				}
+			});
+			//var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			// parent.layer.close(index);
+		}
+	});
+});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

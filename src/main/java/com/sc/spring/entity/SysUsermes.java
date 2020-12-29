@@ -1,5 +1,6 @@
 package com.sc.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -184,7 +185,7 @@ public class SysUsermes implements Serializable {
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getLastchangeTime() {
         return lastchangeTime;
     }

@@ -307,72 +307,72 @@ public class SysCompanyExample {
         }
 
         public Criteria andSysCompanyIsNull() {
-            addCriterion("SYS_COMPANY_@ is null");
+            addCriterion("SYS_COMPANY is null");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyIsNotNull() {
-            addCriterion("SYS_COMPANY_@ is not null");
+            addCriterion("SYS_COMPANY is not null");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyEqualTo(String value) {
-            addCriterion("SYS_COMPANY_@ =", value, "sysCompany");
+            addCriterion("SYS_COMPANY =", value, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyNotEqualTo(String value) {
-            addCriterion("SYS_COMPANY_@ <>", value, "sysCompany");
+            addCriterion("SYS_COMPANY <>", value, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyGreaterThan(String value) {
-            addCriterion("SYS_COMPANY_@ >", value, "sysCompany");
+            addCriterion("SYS_COMPANY >", value, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyGreaterThanOrEqualTo(String value) {
-            addCriterion("SYS_COMPANY_@ >=", value, "sysCompany");
+            addCriterion("SYS_COMPANY >=", value, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyLessThan(String value) {
-            addCriterion("SYS_COMPANY_@ <", value, "sysCompany");
+            addCriterion("SYS_COMPANY <", value, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyLessThanOrEqualTo(String value) {
-            addCriterion("SYS_COMPANY_@ <=", value, "sysCompany");
+            addCriterion("SYS_COMPANY <=", value, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyLike(String value) {
-            addCriterion("SYS_COMPANY_@ like", value, "sysCompany");
+            addCriterion("SYS_COMPANY like", value, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyNotLike(String value) {
-            addCriterion("SYS_COMPANY_@ not like", value, "sysCompany");
+            addCriterion("SYS_COMPANY not like", value, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyIn(List<String> values) {
-            addCriterion("SYS_COMPANY_@ in", values, "sysCompany");
+            addCriterion("SYS_COMPANY in", values, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyNotIn(List<String> values) {
-            addCriterion("SYS_COMPANY_@ not in", values, "sysCompany");
+            addCriterion("SYS_COMPANY not in", values, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyBetween(String value1, String value2) {
-            addCriterion("SYS_COMPANY_@ between", value1, value2, "sysCompany");
+            addCriterion("SYS_COMPANY between", value1, value2, "sysCompany");
             return (Criteria) this;
         }
 
         public Criteria andSysCompanyNotBetween(String value1, String value2) {
-            addCriterion("SYS_COMPANY_@ not between", value1, value2, "sysCompany");
+            addCriterion("SYS_COMPANY not between", value1, value2, "sysCompany");
             return (Criteria) this;
         }
 

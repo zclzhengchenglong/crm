@@ -1,5 +1,6 @@
 package com.sc.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -27,15 +28,15 @@ public class OfficePersonsche implements Serializable {
     private String arrangeTheTheme;
 
     /**
-     * 开始日期
+     * 开始时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
     /**
-     * 开始时间
+     * 结束时间
      */
-    @DateTimeFormat(pattern = "HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
     /**
@@ -85,6 +86,7 @@ public class OfficePersonsche implements Serializable {
         this.arrangeTheTheme = arrangeTheTheme;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getStartDate() {
         return startDate;
     }
@@ -93,6 +95,7 @@ public class OfficePersonsche implements Serializable {
         this.startDate = startDate;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getStartTime() {
         return startTime;
     }
@@ -125,6 +128,7 @@ public class OfficePersonsche implements Serializable {
         this.cpmpanyNumber = cpmpanyNumber;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getLasttime() {
         return lasttime;
     }

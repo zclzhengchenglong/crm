@@ -1,10 +1,12 @@
 package com.sc.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * OFFICE_MESDET
@@ -17,7 +19,7 @@ public class Officemesdet implements Serializable {
     private Long detailNo;
 
     /**
-     * 短消息编号
+     * 短消息编号==消息表里面的 短信编号
      */
     private BigDecimal smsNumner;
 
@@ -41,6 +43,19 @@ public class Officemesdet implements Serializable {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lasttime;
+
+
+    private Officemes officemes;   //与Officemes实体类进行关联  多对一 定义为对象，一对多，定义为集合
+
+    public Officemes getOfficemes() {
+        return officemes;
+    }
+
+    public void setOfficemes(Officemes officemes) {
+        this.officemes = officemes;
+    }
+
+
 
     private static final long serialVersionUID = 1L;
 
@@ -84,6 +99,7 @@ public class Officemesdet implements Serializable {
         this.companyNumber = companyNumber;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getLasttime() {
         return lasttime;
     }

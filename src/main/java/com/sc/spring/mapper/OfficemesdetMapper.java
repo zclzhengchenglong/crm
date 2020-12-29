@@ -2,6 +2,8 @@ package com.sc.spring.mapper;
 
 import com.sc.spring.entity.Officemesdet;
 import com.sc.spring.entity.OfficemesdetExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,7 +18,11 @@ public interface OfficemesdetMapper {
 
     int insertSelective(Officemesdet record);
 
+
+
     List<Officemesdet> selectByExample(OfficemesdetExample example);
+
+    List<Officemesdet> selectOfficeMesdetAndMes(Officemesdet officemesdet);
 
     Officemesdet selectByPrimaryKey(Long detailNo);
 

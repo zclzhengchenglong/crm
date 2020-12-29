@@ -1,5 +1,6 @@
 package com.sc.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -19,6 +20,8 @@ public class SysJurmes implements Serializable {
     private Long powerColumnsId;
 
     private String remarks;
+
+
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastchangeTime;
@@ -65,6 +68,7 @@ public class SysJurmes implements Serializable {
         this.remarks = remarks;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     public Date getLastchangeTime() {
         return lastchangeTime;
     }
