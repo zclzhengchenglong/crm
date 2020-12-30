@@ -36,7 +36,7 @@
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>制单日期：</label>
             <div class="formControls col-xs-8 col-sm-9">
 
-                <input type="text" class="input-text" value="" placeholder="" id="saleFirstdate" name="saleFirstdate">
+                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" class="input-text Wdate" value="" placeholder="" id="saleFirstdate" name="saleFirstdate">
             </div>
         </div>
         <div class="row cl">
@@ -61,20 +61,45 @@
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>销售出库状态：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="saleOutstate" name="saleOutstate">
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="radio-box">
+                    <input name="saleOutstate" value="已出库" type="radio" id="saleOutstate1" checked>
+                    <label for="saleOutstate1">已出库</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" value="未出库" id="saleOutstate2" name="saleOutstate">
+                    <label for="saleOutstate2">未出库</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" value="待出库" id="saleOutstate3" name="saleOutstate">
+                    <label for="saleOutstate3">待出库</label>
+                </div>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否返利：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="saleRebate" name="saleRebate">
+                <div class="radio-box">
+                    <input name="saleRebate" value="是" type="radio" id="saleRebate1" checked>
+                    <label for="saleRebate1">是</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" value="否" id="saleRebate2" name="saleRebate">
+                    <label for="saleRebate2">否</label>
+                </div>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>订单状态：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="saleOrderstate" name="saleOrderstate">
+                <div class="radio-box">
+                    <input name="saleOrderstate" value="已付款" type="radio" id="saleOrderstate1" checked>
+                    <label for="saleOrderstate1">已付款</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" value="未付款" id="saleOrderstate2" name="saleOrderstate">
+                    <label for="saleOrderstate2">未付款</label>
+                </div>
             </div>
         </div>
         <div class="row cl">
@@ -92,7 +117,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>最后修改时间：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="saleLastdate" name="saleLastdate">
+                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" class="input-text Wdate" value="" placeholder="" id="saleLastdate" name="saleLastdate">
             </div>
         </div>
 		<!--<div class="row cl">-->

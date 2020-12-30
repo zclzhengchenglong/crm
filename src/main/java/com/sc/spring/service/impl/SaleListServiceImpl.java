@@ -26,7 +26,7 @@ public class SaleListServiceImpl implements SaleListService {
     SaleListMapper saleListMapper;
 
     @Override
-    public PageInfo<SaleList> selectpage(int pageNum, int pageSize, SaleList SaleList,String datemin,String datemax,String search) {
+    public PageInfo<SaleList> selectpage(String saleUserid,int pageNum, int pageSize, SaleList SaleList,String datemin,String datemax,String search) {
         PageHelper.startPage(pageNum,pageSize);
         SaleListExample example=new SaleListExample();
 
@@ -51,6 +51,8 @@ public class SaleListServiceImpl implements SaleListService {
         if(search!=null&&!search.equals("")){
             criteria.andSaleComidLike("%"+search+"%");
         }
+
+        criteria.andSaleUseridEqualTo(saleUserid);
 
         example.setOrderByClause("SALE_ID DESC");
         List<SaleList> list=saleListMapper.selectByExample(example);

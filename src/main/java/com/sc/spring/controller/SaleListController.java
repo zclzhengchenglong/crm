@@ -3,10 +3,9 @@ package com.sc.spring.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.sc.spring.entity.R;
-import com.sc.spring.entity.Result;
-import com.sc.spring.entity.ResultNew;
-import com.sc.spring.entity.SaleList;
+import com.sc.spring.entity.*;
+import com.sc.spring.mapper.WareGoodsMapper;
+import com.sc.spring.service.SaleDetailsService;
 import com.sc.spring.service.SaleListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 类名：SaleClientlossController
@@ -29,11 +30,17 @@ public class SaleListController {
 
     @Autowired
     SaleListService saleListService;
+    @Autowired
+    WareGoodsMapper wareGoodsMapper;
+    @Autowired
+    SaleDetailsService saleDetailsService;
 
     @RequestMapping("/select.do")
     @ResponseBody
-    public ResultNew select(@RequestParam String aoData){
+    public ResultNew select(@RequestParam String aoData, HttpSession session){
         System.out.println("+++++++++++++++++++++++++"+aoData);
+
+        String saleUserid=null;
 
         JSONArray jsonarray = JSONArray.parseArray(aoData);
         int sEcho = 1; //当前第几页
@@ -47,6 +54,12 @@ public class SaleListController {
 
         for (int i = 0; i < jsonarray.size(); i++) {
             JSONObject obj = (JSONObject) jsonarray.get(i);
+            if (obj.get("name").equals("saleUserid"))
+            {
+
+                BigDecimal g=obj.getBigDecimal("value");
+                saleUserid =  g.toString();
+            }
             if (obj.get("name").equals("sEcho"))
             {
                 sEcho = obj.getIntValue("value");
@@ -74,7 +87,10 @@ public class SaleListController {
             }
         }
 
-        PageInfo<SaleList> pageInfo = saleListService.selectpage(iDisplayStart/iDisplayLength+1, iDisplayLength, null,datemin,datemax,search);
+
+        session.setAttribute("saleUserid",saleUserid);
+        System.out.println("3333333333333333333333"+saleUserid);
+        PageInfo<SaleList> pageInfo = saleListService.selectpage(saleUserid,iDisplayStart/iDisplayLength+1, iDisplayLength, null,datemin,datemax,search);
 
 
         ResultNew resultNew=new ResultNew();
@@ -92,6 +108,17 @@ public class SaleListController {
     public R add(SaleList saleList) {
         System.out.println("----"+saleList);
         if(saleList!=null&&saleList.getSaleId()!=null&&!saleList.getSaleId().equals("")){
+            if(saleList.getSaleOutstate()!=null&&saleList.getSaleOutstate().equals("已出库")){
+
+                List<SaleDetails> select = saleDetailsService.select(saleList.getSaleId());
+                if(select!=null){
+                    for (SaleDetails saleDetails : select) {
+                        WareGoods wareGoods = wareGoodsMapper.selectByPrimaryKey(Long.parseLong(saleDetails.getSaleCommid()));
+                        wareGoods.setInventory(wareGoods.getInventory()-Long.parseLong(saleDetails.getSaleNum()));
+                        wareGoodsMapper.updateByPrimaryKey(wareGoods);
+                    }
+                }
+            }
             this.saleListService.update(saleList);
             return new R(200,"修改成功！");
         }else {

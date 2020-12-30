@@ -94,7 +94,8 @@ $(function(){
 						'<a title="反馈记录" href="salecfeedback-list.html?clientnum='+row.clientnum+'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe616;</i></a> ' +
 						/*'<a title="反馈记录" href="javascript:;" onclick="member_detail2(\'反馈记录\',\'sale-clientcontrec-list.html\','+row.clientnum+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe616;</i></a> ' +*/
 						'<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'sale-clientmes-add.html\','+row.clientnum+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> ' +
-						' <a title="删除" href="javascript:;" onclick="member_del(this,'+row.clientnum+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
+						' <a title="删除" href="javascript:;" onclick="member_del(this,'+row.clientnum+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>'+
+					' <a title="出库" href="sale-list-list.html?saleUserid='+row.clientnum+'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe623;</i></a></td>';
 			}}
 		],
 		<!--href="sale-clientcont-list.html?clientnumn=row.clientnum"-->

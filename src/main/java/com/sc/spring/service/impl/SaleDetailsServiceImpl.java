@@ -27,10 +27,9 @@ public class SaleDetailsServiceImpl implements SaleDetailsService {
 
 
     @Override
-    public PageInfo<SaleDetails> selectpage(int pageNum, int pageSize, SaleDetails SaleDetails,String datemin,String datemax,String search) {
+    public PageInfo<SaleDetails> selectpage(String saleDid,int pageNum, int pageSize, SaleDetails SaleDetails,String datemin,String datemax,String search) {
         PageHelper.startPage(pageNum,pageSize);
         SaleDetailsExample example=new SaleDetailsExample();
-
 
         SaleDetailsExample.Criteria criteria = example.createCriteria();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -53,10 +52,25 @@ public class SaleDetailsServiceImpl implements SaleDetailsService {
             criteria.andSaleComidLike("%"+search+"%");
         }
 
+        criteria.andSaleIdEqualTo(saleDid);
+
+
         example.setOrderByClause("SALE_DID DESC");
         List<SaleDetails> list=saleDetailsMapper.selectByExample(example);
         PageInfo<SaleDetails>   pageInfo=new PageInfo<SaleDetails>(list);
         return pageInfo;
+    }
+
+    @Override
+    public List<SaleDetails> select(String saleDid) {
+        SaleDetailsExample example=new SaleDetailsExample();
+
+        SaleDetailsExample.Criteria criteria = example.createCriteria();
+        if(saleDid!=null&&!saleDid.equals("")){
+            criteria.andSaleIdEqualTo(saleDid);
+        }
+        List<SaleDetails> list=saleDetailsMapper.selectByExample(example);
+        return list;
     }
 
     @Override

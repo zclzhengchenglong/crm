@@ -31,28 +31,30 @@
 		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
+        <input type="hidden" id="saleId" name="saleId">
+		<input type="hidden" id="saleUserid" name="saleUserid">
 		<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="search" name="search">
 		<button type="button" onclick="search1()" class="btn btn-success radius" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 	</div>
 </form>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-		<a href="javascript:;" onclick="member_add('添加用户','sale-list-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+		<a href="javascript:;" onclick="member_add('添加出库单','sale-list-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加出库单</a></span> <span class="r">共有数据：<strong id="st"></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="60">ID</th>
-				<th width="100">制单日期</th>
+				<th width="110">制单日期</th>
 				<th width="60">发票编号</th>
 				<th width="60">客户ID</th>
 				<th width="60">销售金额</th>
-				<th width="80">销售出库状态</th>
-				<th width="70">是否返利</th>
+				<th width="70">销售出库状态</th>
+				<th width="60">是否返利</th>
 				<th width="100">订单状态</th>
 				<th width="100">备注信息</th>
 				<th width="100">公司编号</th>
-				<th width="100">最后修改时间</th>
+				<th width="110">最后修改时间</th>
                 <th width="60">操作</th>
             </tr>
 		</thead>
@@ -86,11 +88,26 @@
 <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+	function RequestParameter(){
+		var url = window.location.search; //获取url中"?"符后的字串
+		var theRequest = new Object();
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			var strs = str.split("&");
+			for(var i = 0; i < strs.length; i ++) {
+				theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+			}
+		}
+		return theRequest}
 	var jsonCondition=null;
 $(function(){
 	var startTime=$("#datemin").val();
 	var endTime=$("#datemax").val();
 	var search=$("#search").val();
+
+	var saleDid1=RequestParameter()["saleUserid"];
+	$("#saleUserid").val(saleDid1);
+
 
 	$('.table-sort').dataTable({
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
@@ -113,7 +130,8 @@ $(function(){
 			{"data": "","bSortable":false,"render":function(data,type,row){
 				return '<td class="td-manage"><a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'sale-list-add.html\','+row.saleId+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> ' +
 						' <a title="删除" href="javascript:;" onclick="member_del(this,'+row.saleId+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a> ' +
-						'<a title="详情" href="javascript:;" onclick="member_edit(\'详情\',\'sale-list-add.html\','+row.saleId+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e0;</i></a></td>';
+						'<a title="详情" href="sale-list-details.html?saleId='+row.saleId+'"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe622;</i></a></td>'
+
 			}}
 		],
 		"aoColumnDefs": [
@@ -130,19 +148,20 @@ $(function(){
 	// 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
 	var page={"iDisplayStart":"0","iDisplayLength":"0"};
 	function retrieveData(sAjaxSource,aoData, fnCallback) {
-		//$.each(aoData111,function(index,item){
-			/*if (item.name=="iDisplayStart") {
-				console.log(item.value);
-				page.iDisplayStart=item.value;
-			}
-			if (item.name=="iDisplayLength") {
-				console.log(item.value);
-				page.iDisplayLength=item.value;
-			}*/
-		//});
+
+
+		var page1={"name":"","value":""};
+		page1.name="saleUserid";
+		page1.value=$("#saleUserid").val();         //1111111111111
+		aoData.push(page1)
+
+
+
 		if (jsonCondition!=null) {
 			//将搜索条件和page拼接到一起
 			//$.extend(aoData,jsonCondition);
+
+
 
 			if(jsonCondition.datemin){
 				var page={"name":"","value":""};
@@ -215,10 +234,15 @@ $(function(){
 		return o;
 	};
 
+
+
+
 /*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
+
+
 /*用户-查看*/
 function member_show(title,url,id,w,h){
 	layer_show(title,url,w,h);
@@ -262,11 +286,17 @@ function member_start(obj,id){
 		});
 	});
 }
+
+
+
 /*用户-编辑*/
 function member_edit(title,url,id,w,h){
 	url=url+"?saleId="+id;
 	layer_show(title,url,w,h);
 }
+
+
+
 /*密码-修改*/
 function change_password(title,url,id,w,h){
 	layer_show(title,url,w,h);	

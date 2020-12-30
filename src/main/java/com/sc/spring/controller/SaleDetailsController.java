@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 类名：SaleClientlossController
  * 描述：一段话描述类的信息
@@ -27,9 +29,10 @@ public class SaleDetailsController {
 
     @RequestMapping("/select.do")
     @ResponseBody
-    public ResultNew select(@RequestParam String aoData){
+    public ResultNew select(@RequestParam String aoData, HttpSession session){
         System.out.println("+++++++++++++++++++++++++"+aoData);
 
+        String saleId=null;
         JSONArray jsonarray = JSONArray.parseArray(aoData);
         int sEcho = 1; //当前第几页
 
@@ -42,6 +45,10 @@ public class SaleDetailsController {
 
         for (int i = 0; i < jsonarray.size(); i++) {
             JSONObject obj = (JSONObject) jsonarray.get(i);
+            if (obj.get("name").equals("saleDid"))
+            {
+                saleId = obj.getString("value");
+            }
             if (obj.get("name").equals("sEcho"))
             {
                 sEcho = obj.getIntValue("value");
@@ -69,7 +76,9 @@ public class SaleDetailsController {
             }
         }
 
-        PageInfo<SaleDetails> pageInfo = saleDetailsService.selectpage(iDisplayStart/iDisplayLength+1, iDisplayLength, null,datemin,datemax,search);
+        session.setAttribute("saleDId",saleId);
+        System.out.println("3333333333333333333333"+saleId);
+        PageInfo<SaleDetails> pageInfo = saleDetailsService.selectpage(saleId,iDisplayStart/iDisplayLength+1, iDisplayLength, null,datemin,datemax,search);
 
 
         ResultNew resultNew=new ResultNew();
@@ -84,12 +93,14 @@ public class SaleDetailsController {
 
     @RequestMapping("/add.do")
     @ResponseBody
-    public R add(SaleDetails SaleDetails) {
+    public R add(SaleDetails SaleDetails, HttpSession session) {
         System.out.println("----"+SaleDetails);
         if(SaleDetails!=null&&SaleDetails.getSaleDid()!=null&&!SaleDetails.getSaleDid().equals("")){
             this.saleDetailsService.update(SaleDetails);
             return new R(200,"修改成功！");
         }else {
+            SaleDetails.setSaleId((String) session.getAttribute("saleDId"));
+            System.out.println("88888888888888"+(String) session.getAttribute("saleDId"));
             this.saleDetailsService.add(SaleDetails);
             return new R(200, "添加成功！");
         }

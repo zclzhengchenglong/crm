@@ -3,6 +3,8 @@ package com.sc.spring.service;
 import com.github.pagehelper.PageInfo;
 import com.sc.spring.entity.SaleDetails;
 
+import java.util.List;
+
 
 /**
  * 类名：SaleClientlossService
@@ -12,7 +14,9 @@ import com.sc.spring.entity.SaleDetails;
  * 版本：V1.0
  */
 public interface SaleDetailsService {
-    public PageInfo<SaleDetails> selectpage(int pageNum, int pageSize, SaleDetails SaleDetails,String datemin,String datemax,String search);
+    public PageInfo<SaleDetails> selectpage(String saleDid,int pageNum, int pageSize, SaleDetails SaleDetails,String datemin,String datemax,String search);
+
+    public List<SaleDetails> select(String saleDid);
 
     public void add(SaleDetails SaleDetails);
 

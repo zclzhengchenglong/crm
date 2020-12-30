@@ -33,7 +33,7 @@
 		<button type="button" onclick="search1()" class="btn btn-success radius" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 	</div>
 	</form>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加用户','sale-details-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加用户','sale-details-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong id="st"></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -87,6 +87,9 @@
 		var endTime=$("#datemax").val();
 		var search=$("#search").val();
 
+		var saleDid1=RequestParameter()["saleId"];
+		$("#saleDid").val(saleDid1);
+
 		$('.table-sort').dataTable({
 			"aaSorting": [[ 1, "desc" ]],//默认第几个排序
 			"bStateSave": true,//状态保存
@@ -120,16 +123,14 @@
 		// 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
 		var page={"iDisplayStart":"0","iDisplayLength":"0"};
 		function retrieveData(sAjaxSource,aoData, fnCallback) {
-			//$.each(aoData111,function(index,item){
-			/*if (item.name=="iDisplayStart") {
-				console.log(item.value);
-				page.iDisplayStart=item.value;
-			}
-			if (item.name=="iDisplayLength") {
-				console.log(item.value);
-				page.iDisplayLength=item.value;
-			}*/
-			//});
+
+
+			var page1={"name":"","value":""};
+			page1.name="saleDid";
+			page1.value=$("#saleDid").val();         //1111111111111
+			aoData.push(page1)
+
+
 			if (jsonCondition!=null) {
 				//将搜索条件和page拼接到一起
 				//$.extend(aoData,jsonCondition);
