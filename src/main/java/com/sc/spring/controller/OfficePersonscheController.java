@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.sc.spring.entity.*;
 import com.sc.spring.service.OfficeMesService;
 import com.sc.spring.service.OfficePersonscheService;
+import com.sc.spring.service.SysUseraccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -28,6 +30,9 @@ public class OfficePersonscheController {
 
     @Autowired
     OfficePersonscheService officePersonscheService;
+
+    @Autowired
+    SysUseraccountService sysUseraccountService;
 
     @RequestMapping("/select.do")
     @ResponseBody
@@ -86,23 +91,16 @@ public class OfficePersonscheController {
 
     @RequestMapping("/add.do")
     @ResponseBody
-    public R add(OfficePersonsche officePersonsche /*,HttpSession session*/) {
+    public R add(OfficePersonsche officePersonsche ,HttpSession session) {
         System.out.println("----"+officePersonsche);
         if(officePersonsche!=null&&officePersonsche.getSeId()!=null&&!officePersonsche.getSeId().equals("")){
             this.officePersonscheService.update(officePersonsche);
             return new R(200,"修改成功！");
         }else {
 
-           /* if(ids!=null&&ids.length()>0){
-                String[] s = ids.split(",");  //split()：拆分字符串   split分裂，拆分
-                for (int i = 0; i <s.length ; i++) {
-                    System.out.println("--=======--"+s[i]);
-                    officePersonsche.setFillInThePersonnelNumber(nowuser.getUserid);
-                    officePersonsche.setCpmpanyNumber(nowuser.);
-                    this.officePersonscheService.add(officePersonsche);
-                }
-            }*/
-
+            SysUseraccount nowuser = (SysUseraccount)session.getAttribute("nowuser");
+            officePersonsche.setCpmpanyNumber(new BigDecimal(nowuser.getCompanyId()));//从session中获取当前登录人的部门编号
+            officePersonsche.setFillInThePersonnelNumber(new BigDecimal(nowuser.getUserId()));//从session中获取当前登录人
 
             this.officePersonscheService.add(officePersonsche);
             return new R(200, "添加成功！");

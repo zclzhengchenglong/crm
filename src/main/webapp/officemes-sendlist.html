@@ -39,6 +39,9 @@
 
     <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
             <a href="javascript:;" onclick="officemes_add('添加短消息','officemes-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加短消息</a>
+<!--
+		    <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+-->
         </span> <span class="r">共有数据：<strong id="st"></strong> 条</span>
     </div>
 
@@ -89,7 +92,11 @@
                 {"data": "lasttime","bSortable": true},
                 {"data": "","bSortable":false,"render":function(data,type,row){
                         return '<td class="td-manage">' +
-								'<a title="查看详情" href="javascript:;" onclick="officemes_edit(\'查看详情\',\'officemes-add.html\','+row.officeId+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe62e;</i></a>  ' ;
+								'<a title="查看详情" href="javascript:;" onclick="officemes_edit(\'查看详情\',\'officemessend-details.html\','+row.officeId+',\'\',\'510\')" class=" btn btn-warning radius" ><i class="Hui-iconfont"></i>查看详情</a>'
+/*
+								+ '<a title="删除" href="javascript:;" onclick="officemes_del(this,'+row.officeId+')" class=" btn btn-danger radius" ><i class="Hui-iconfont"></i>删除</a>'
+*/
+								;
                     }}
             ],
             "aoColumnDefs": [
@@ -100,23 +107,12 @@
             "bServerSide": true,//这个用来指明是通过服务端来取数据
             "sAjaxSource": "officemes/select.do",//这个是请求的地址
             "fnServerData": retrieveData, // 获取数据的处理函数
-            /*"pageLength": 10,   //默认10
-            bPaginate:true,//是否显示（应用）分页器*/
         });
 
         // 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
        // var page={"iDisplayStart":"0","iDisplayLength":"0"};
         function retrieveData( sAjaxSource,aoData, fnCallback) {
-            /*$.each(aoData,function(index,item){
-                /!*if (item.name=="iDisplayStart") {
-                    console.log(item.value);
-                    page.iDisplayStart=item.value;
-                }
-                if (item.name=="iDisplayLength") {
-                    console.log(item.value);
-                    page.iDisplayLength=item.value;
-                }*!/
-            });*/
+
             if (jsonCondition!=null) {
                 //将搜索条件和page拼接到一起
                 //$.extend(page,jsonCondition);
@@ -279,7 +275,6 @@ function change_password(title,url,id,w,h){
                     var res = checkedbox.map(function(){
                         return this.value;
                     });
-                    //window.location.href="${pageContext.request.contextPath}/deleteTags/ids="+res.toArray().join(",")+".action";
                     $.post(
                         "officemes/delAll.do?ids="+res.toArray().join(","),
                         function(data){
@@ -292,7 +287,6 @@ function change_password(title,url,id,w,h){
                             }else{
                                 layer.msg('删除失败',{icon:2,time:1000});
                             }
-                            // window.location.reload();
                         }
                     );
                 }, function(){

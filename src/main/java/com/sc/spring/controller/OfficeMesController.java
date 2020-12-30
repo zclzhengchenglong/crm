@@ -7,6 +7,7 @@ import com.sc.spring.entity.*;
 import com.sc.spring.service.OfficeMesDetService;
 import com.sc.spring.service.OfficeMesService;
 import com.sc.spring.service.SaleClientlossService;
+import com.sc.spring.service.SysUseraccountService;
 import com.sc.spring.service.impl.OfficeMesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class OfficeMesController {
 
     @Autowired
     OfficeMesDetService officeMesDetService;
+
+    @Autowired
+    SysUseraccountService sysUseraccountService;
 
     @RequestMapping("/select.do")
     @ResponseBody

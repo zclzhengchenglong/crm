@@ -2,12 +2,10 @@ package com.sc.spring.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sc.spring.entity.Officemes;
-import com.sc.spring.entity.OfficemesExample;
-import com.sc.spring.entity.Officemesdet;
-import com.sc.spring.entity.OfficemesdetExample;
+import com.sc.spring.entity.*;
 import com.sc.spring.mapper.OfficemesMapper;
 import com.sc.spring.mapper.OfficemesdetMapper;
+import com.sc.spring.mapper.SysUseraccountMapper;
 import com.sc.spring.service.OfficeMesDetService;
 import com.sc.spring.service.OfficeMesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,10 @@ import java.util.List;
 public class OfficeMesDetServiceImpl implements OfficeMesDetService {
     @Autowired
     OfficemesdetMapper officemesdetMapper;
+
+    @Autowired
+    SysUseraccountMapper sysUseraccountMapper;
+
 
 
 
@@ -72,6 +74,9 @@ public class OfficeMesDetServiceImpl implements OfficeMesDetService {
         return this.officemesdetMapper.selectByPrimaryKey(officeId);
     }
 
-
+    @Override
+    public List<SysUseraccount> selectUsers() {
+        return sysUseraccountMapper.selectByExample(null);
+    }
 
 }

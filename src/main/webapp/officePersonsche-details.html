@@ -59,9 +59,6 @@
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" id="fillInThePersonnelNumber"  name="fillInThePersonnelNumber">
 					<option value="" selected>请选择负责人编号</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
 				</select>
 				</span>
 			</div>
@@ -88,13 +85,6 @@
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/300</p>
 			</div>
 		</div>
-		<!--<div class="row cl">
-			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-				<input class="btn btn-primary radius" type="reset" value="&nbsp;&nbsp;重置&nbsp;&nbsp;">
-			</div>
-
-		</div>-->
 	</form>
 </article>
 
@@ -125,6 +115,20 @@ function RequestParameter(){
 	return theRequest}
 
 $(function(){
+
+	//获取用户下拉框start
+	$.ajax({
+		type: 'post',
+		url: "officePersonsche/selectUsers.do",
+		dataType:"json",
+		success: function(obj){
+			console.log(obj);
+			for(var i in obj){
+				$("#fillInThePersonnelNumber").append("<option value='"+obj[i].userId+"'>"+obj[i].userName+"</option>");
+			}
+		}
+	});
+	//获取用户下拉框end
 
 	//根据传递过来的主键编号获取对象，显示原来的信息
         var seId=RequestParameter()["seId"];
@@ -197,9 +201,6 @@ $(function(){
 					});
 				}
 			});
-			//var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			// parent.layer.close(index);
 		}
 	});
 });

@@ -75,18 +75,6 @@ public class OfficePersonscheServiceImpl implements OfficePersonscheService {
         return pageInfo;
     }
 
-   /* @Override
-    public details(OfficePersonsche officePersonsche) {
-        this.setseId(OfficePersonsche.getseId());
-        this.setarrangeTheTheme(OfficePersonsche.getarrangeTheTheme());
-        this.setstartDate(OfficePersonsche.getstartDate());
-        this.setstartTime(OfficePersonsche.getstartTime());
-        this.setImage(OfficePersonsche.getImage());
-        this.setNum(OfficePersonsche.getNum());
-        this.setPrice(OfficePersonsche.getPrice());
-
-    }*/
-
     @Override
     public void add(OfficePersonsche officePersonsche) {
         this.officePersonscheMapper.insert(officePersonsche);

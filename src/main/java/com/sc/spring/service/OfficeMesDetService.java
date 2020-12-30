@@ -3,6 +3,9 @@ package com.sc.spring.service;
 import com.github.pagehelper.PageInfo;
 import com.sc.spring.entity.Officemes;
 import com.sc.spring.entity.Officemesdet;
+import com.sc.spring.entity.SysUseraccount;
+
+import java.util.List;
 
 /**
  * 类名：OfficeMesService
@@ -21,4 +24,6 @@ public interface OfficeMesDetService {
     public void update(Officemesdet officemesdet);
 
     public Officemesdet get(Long detailNo);
+
+    public List<SysUseraccount> selectUsers(); //显示下拉框的负责人
 }

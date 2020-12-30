@@ -24,13 +24,13 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>接收短消息 - H-ui.admin v3.1</title>
+<title>添加短消息 - H-ui.admin v3.1</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <article class="page-container">
-	<form action=""  method="post" class="form form-horizontal" id="officemesreceive-add">
+	<form action=""  method="post" class="form form-horizontal" id="officemes-add">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>消息标题：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -42,36 +42,26 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>接收人：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="sender">
+				<select class="select" multiple id="sender" name="sender">
 					<option value="" selected>请选择接收人</option>
-					<option value="张三">张三</option>
-					<option value="李四">李四</option>
-					<option value="王五">王五</option>
 				</select>
 				</span>
-			</div>
+		</div>
 		</div>
 
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>发送时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="lasttime" name="lasttime">
+				<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss' })" id="lasttime" name="lasttime" class="input-text Wdate" style="width:180px;">
 			</div>
 		</div>
 
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>消息内容：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="content1" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,300)"></textarea>
+				<textarea id="content1" name="content1" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,300)"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/300</p>
 			</div>
-		</div>
-		<div class="row cl">
-			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;重置&nbsp;&nbsp;">
-			</div>
-
 		</div>
 	</form>
 </article>
@@ -101,11 +91,24 @@ function RequestParameter(){
 	return theRequest}
 $(function(){
 
+	//获取用户下拉框start
+	$.ajax({
+		type: 'post',
+		url: "officemes/selectUsers.do",
+		dataType:"json",
+		success: function(obj){
+			console.log(obj);
+			for(var i in obj){
+			$("#sender").append("<option value='"+obj[i].userId+"'>"+obj[i].userName+"</option>");
+			}
+		}
+	});
+	//获取用户下拉框end
+
 	//根据传递过来的主键编号获取对象，显示原来的信息
 	var officeId=RequestParameter()["officeId"];
-	if(officeId!='undefined'){
+	if(officeId!=undefined){
 		$("#officeId").val(officeId);
-
 		$.ajax({
 			type: 'post',
 			url: "officemes/get.do" ,
@@ -114,9 +117,10 @@ $(function(){
 			success: function(obj){
 				console.log(obj);
 				//取到需要的数据
-				//$("#title").val(obj.title);
+				$("#title").val(obj.title);
 				$("#sender").val(obj.sender);
-				//$("#content1").val(obj.content1);
+				$("#lasttime").val(obj.lasttime);
+				$("#content1").text(obj.content1);
 			}
 		});
 
@@ -132,27 +136,16 @@ $(function(){
 		rules:{
 			title:{
 				required:true,
-			}
-			/*username:{
-				required:true,
-				minlength:2,
-				maxlength:16
 			},
-			sex:{
+			sender:{
 				required:true,
 			},
-			mobile:{
+			lasttime:{
 				required:true,
-				isMobile:true,
 			},
-			email:{
+			content1:{
 				required:true,
-				email:true,
 			},
-			uploadfile:{
-				required:true,
-			},*/
-			
 		},
 		onkeyup:false,
 		focusCleanup:true,
@@ -172,9 +165,6 @@ $(function(){
 					});
 				}
 			});
-			//var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			// parent.layer.close(index);
 		}
 	});
 });
