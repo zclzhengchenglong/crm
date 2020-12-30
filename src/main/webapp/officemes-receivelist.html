@@ -44,7 +44,8 @@
 -->
             <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
 
-        </span> <span class="r">共有数据：<strong id="st"></strong> 条</span>
+        </span>
+		<span class="r">共有数据：<strong id="st"></strong> 条</span>
     </div>
 
 	<div class="mt-20">
@@ -95,8 +96,8 @@
                 {"data": "lasttime","bSortable": true},
                 {"data": "","bSortable":false,"render":function(data,type,row){
                         return '<td class="td-manage">' +
-								'<a title="查看详情" href="javascript:;" onclick="officemes_edit(\'查看详情\',\'officemes-add.html\','+row.detailNo+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe62e;</i></a>  ' +
-								'<a title="删除" href="javascript:;" onclick="officemes_del(this,'+row.detailNo+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
+								'<a title="查看详情" href="javascript:;" onclick="officemes_edit(\'查看详情\',\'officemesreceive-details.html\','+row.detailNo+',\'\',\'510\')" class=" btn btn-warning radius" ><i class="Hui-iconfont"></i>查看详情</a>'+
+								'<a title="删除" href="javascript:;" onclick="officemes_del(this,'+row.detailNo+')" class=" btn btn-danger radius" ><i class="Hui-iconfont"></i>删除</a></td>';
                     }}
             ],
             "aoColumnDefs": [
@@ -114,19 +115,9 @@
         // 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
         var page={"iDisplayStart":"0","iDisplayLength":"0"};
         function retrieveData( sAjaxSource,aoData, fnCallback) {
-            /*$.each(aoData,function(index,item){
-                /!*if (item.name=="iDisplayStart") {
-                    console.log(item.value);
-                    page.iDisplayStart=item.value;
-                }
-                if (item.name=="iDisplayLength") {
-                    console.log(item.value);
-                    page.iDisplayLength=item.value;
-                }*!/
-            });*/
+
 			if (jsonCondition!=null) {
 				//将搜索条件和page拼接到一起
-				//$.extend(page,jsonCondition);
 
 				if(jsonCondition.datemin){
 					var page={"name":"","value":""};
@@ -245,7 +236,7 @@ function member_start(obj,id){
 }
 /*用户-编辑*/
 function officemes_edit(title,url,id,w,h){
-	url=url+"?officeId="+id;
+	url=url+"?detailNo="+id;
 	layer_show(title,url,w,h);
 }
 

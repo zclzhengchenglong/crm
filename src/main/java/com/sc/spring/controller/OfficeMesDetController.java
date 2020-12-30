@@ -3,10 +3,7 @@ package com.sc.spring.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.sc.spring.entity.Officemes;
-import com.sc.spring.entity.Officemesdet;
-import com.sc.spring.entity.R;
-import com.sc.spring.entity.Result;
+import com.sc.spring.entity.*;
 import com.sc.spring.service.OfficeMesDetService;
 import com.sc.spring.service.OfficeMesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 
 /**
  * 类名：OfficeMesController
@@ -28,6 +28,9 @@ public class OfficeMesDetController {
 
     @Autowired
     OfficeMesDetService officeMesDetService;
+
+    @Autowired
+    OfficeMesService officeMesService;
 
     @RequestMapping("/select.do")
     @ResponseBody
@@ -111,9 +114,14 @@ public class OfficeMesDetController {
 
     @RequestMapping("/get.do")
     @ResponseBody
-    public Officemesdet get(Long officeId) {
-        System.out.println("--=======--"+officeId);
-        return this.officeMesDetService.get(officeId);
+    public Officemesdet get(Long detailNo) {
+        System.out.println("--=======--"+detailNo);
+        Officemesdet officemesdet = this.officeMesDetService.get(detailNo);
+        officemesdet.setMessageStatus("已读");
+        this.officeMesDetService.update(officemesdet);
+        Officemes officemes = this.officeMesService.get(officemesdet.getSmsNumner().longValue());
+        officemesdet.setOfficemes(officemes);
+        return officemesdet;
     }
 
     @RequestMapping("/delAll.do")
@@ -130,4 +138,5 @@ public class OfficeMesDetController {
 
         return new R(200,"删除成功！");
     }
+
 }
