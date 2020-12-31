@@ -1,0 +1,307 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>考核指标表格页面</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户指标 <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<form id="myform">
+		<div class="text-c"> 日期范围：
+			<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
+			-
+			<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
+			<input type="text" class="input-text" style="width:250px" placeholder="输入客户名称、电话、邮箱" id="search" name="search">
+			<button type="button" onclick="search1()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜索任务指标</button>
+		</div>
+	</form>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+        <a href="javascript:;" onclick="member_add('发布考核任务','office-test-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 发布考核任务</a></span> <span class="r">共有数据：<strong  id="st"></strong> 条</span> </div>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-hover table-bg table-sort">
+			<thead>
+			<tr class="text-c">
+				<th width="25"><input type="checkbox" name="" value=""></th>
+				<th width="80">编号</th>
+				<th width="100">任务编号</th>
+				<th width="90">接受用户编号</th>
+				<th width="150">是否完成</th>
+				<th width="90">发布人</th>
+				<th width="90">状态</th>
+				<th width="90">开始时间</th>
+				<th width="90">结束时间</th>
+				<th width="130">公司编号</th>
+				<th width="70">修改时间</th>
+				<th width="100">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+
+	</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+var jsonCondition=null;
+$(function(){
+	var startTime=$("#datemin").val();
+	var endTime=$("#datemax").val();
+	var search=$("#search").val();
+
+
+	$('.table-sort').dataTable({
+		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"columns":[
+			{"data": "","bSortable": false,'className': 'dt-body-center','render': function (data, type, row){
+					return '<input class="checkchild" type="checkbox" value="'+row.lossnum+'" name="ids"/>';
+				}},
+			{"data": "officeId","bSortable": true},
+			{"data": "taskId","bSortable": true},
+			{"data": "acceptUserNumber","bSortable": true},
+			{"data": "itIsCompeleted","bSortable": true},
+			{"data": "state","bSortable": true},
+			{"data": "officetasktest.taskPublisher","bSortable": true},
+			{"data": "officetasktest.taskStartTime","bSortable": true},
+			{"data": "officetasktest.taskEndTime","bSortable": true},
+			{"data": "companyNumber","bSortable": true},
+			{"data": "lastModificationTime","bSortable": true},
+			{"data": "","bSortable":false,"render":function(data,type,row){
+					return '<td class="td-manage"><a title="查看详情" href="javascript:;" onclick="member_edit(\'编辑\',\'officetestdet-add.html\','+row.officeId+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  <a title="删除" href="javascript:;" onclick="member_del(this,'+row.officeId+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
+				}}
+		],
+		"aoColumnDefs": [
+		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+		  {"orderable":false,"aTargets":[0]}// 制定列不参与排序
+		],
+		"bProcessing": false, // 是否显示取数据时的那个等待提示
+		"bServerSide": true,//这个用来指明是通过服务端来取数据
+		"sAjaxSource": "OfficeTestctl/select.do",//这个是请求的地址
+		"fnServerData": retrieveData, // 获取数据的处理函数
+    });
+
+	// 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
+
+	function retrieveData( sAjaxSource,aoData, fnCallback) {
+	/*	$.each(aoData,function(index,item){
+			/*if (item.name=="iDisplayStart") {
+				console.log(item.value);
+				page.iDisplayStart=item.value;
+			}
+			if (item.name=="iDisplayLength") {
+				console.log(item.value);
+				page.iDisplayLength=item.value;
+			}*!/
+		}); */
+		if (jsonCondition!=null) {
+            //将搜索条件和page拼接到一起
+			//$.extend(aoData,jsonCondition);
+			if(jsonCondition.datemin){
+				var page={"name":"","value":""};
+				page.name="datemin"
+				page.value=jsonCondition.datemin;
+				aoData.push(page);
+			}
+			if(jsonCondition.datemax){
+				var page={"name":"","value":""};
+				page.name="datemax"
+				page.value=jsonCondition.datemax;
+				aoData.push(page);
+			}
+			if(jsonCondition.search){
+				var page={"name":"","value":""};
+				page.name="search"
+				page.value=jsonCondition.search;
+				aoData.push(page);
+			}
+		}
+
+		$.ajax({
+			url : sAjaxSource,//这个就是请求地址对应sAjaxSource
+			data : {"aoData":JSON.stringify(aoData)},//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			success : function(result) {
+				console.log(result);
+				fnCallback(result);//把返回的数据传给这个方法就可以了,datatable会自动绑定数据的
+				$("#st").html(result.iTotalDisplayRecords);
+			},
+			error : function(msg) {
+				aler("ajax Error");
+			}
+		});
+	}
+
+});
+
+/**
+ * 搜索按钮的方法
+ */
+function search1(){
+
+	jsonCondition=$("#myform").serializeObject();
+	var table = $('.table-sort').DataTable();
+	table.ajax.reload();
+}
+
+
+/**
+ * form表单序列化方法
+ */
+$.fn.serializeObject = function()
+{
+	var o = {};
+	var a = this.serializeArray();
+	$.each(a, function() {
+		if (o[this.name]) {
+			if (!o[this.name].push) {
+				o[this.name] = [o[this.name]];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+		}
+	});
+	return o;
+};
+
+
+
+/*用户-添加*/
+function member_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*用户-查看*/
+function member_show(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*用户-停用*/
+function member_stop(obj,id){
+	layer.confirm('确认要停用吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+				$(obj).remove();
+				layer.msg('已停用!',{icon: 5,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+
+/*用户-启用*/
+function member_start(obj,id){
+	layer.confirm('确认要启用吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+				$(obj).remove();
+				layer.msg('已启用!',{icon: 6,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});
+	});
+}
+/*用户-编辑*/
+function member_edit(title,url,id,w,h){
+    url=url+"?indexId="+id;
+	layer_show(title,url,w,h);
+}
+
+/*用户-删除*/
+function member_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: 'OfficeTestctl/del.do',
+            data: "indexId="+id,
+			dataType: 'json',
+			success: function(r){
+				$(obj).parents("tr").remove();
+				layer.msg(r.msg,{icon:1,time:1000,title: "提示"});
+			},
+			error:function(r) {
+				console.log(r.msg);
+			},
+		});		
+	});
+}
+
+
+function datadel(){
+    var checkedbox = $("input[name='ids']:checked");
+    if(checkedbox.length == 0){
+		layer.msg('请选择要删除的数据',{icon:2,time:1000});
+    }else{
+
+		layer.confirm("确定要删除吗？",{
+			btn: ['确定', '取消']
+		}, function () {
+			var res = checkedbox.map(function(){
+				return this.value;
+			});
+			//window.location.href="${pageContext.request.contextPath}/deleteTags/ids="+res.toArray().join(",")+".action";
+			$.post(
+					"OfficeTestctl/delAll.do?ids="+res.toArray().join(","),//方法还没实现，先下眼
+					function(data){
+						if(data.code == 200){
+							layer.msg('删除成功',{icon:1,time:1000});
+							$("input[name='ids']:checked").each(function(i,e){
+								$(this).parents("tr").remove();
+							});
+
+						}else{
+							layer.msg('删除失败',{icon:2,time:1000});
+						}
+						// window.location.reload();
+					}
+			);
+		}, function(){
+
+		});
+    }
+}
+</script> 
+</body>
+</html>
