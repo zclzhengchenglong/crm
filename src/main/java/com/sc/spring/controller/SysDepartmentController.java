@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * 类名：SaleClientlossController
  * 描述：一段话描述类的信息
@@ -122,5 +124,10 @@ public class SysDepartmentController {
         }
 
         return new R(200,"删除成功！");
+    }
+    @RequestMapping("/selectRoles.do")
+    @ResponseBody
+    public List<SysDepartment> selectRoles() {
+        return this.sysDepartmentService.selectRoles();
     }
 }

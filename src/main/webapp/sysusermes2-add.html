@@ -152,12 +152,19 @@
 
 
                 <tr>
-                    <th class="text-r">职务ID：</th>
+                    <th class="text-r">审核状态：</th>
                     <td><textarea class="input-text" name="onlineContact" id="onlineContact" style="height:100px;width:300px;"></textarea></td>
                 </tr>
                 <tr>
                     <th class="text-r">员工状态：</th>
-                    <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="postId" name="postId"></td>
+                    <td> <select class="select" size="1" name="postId" id="postId" class="input-text Wdate" style="width:300px"class="input-text Wdate" style="width:300px">
+                        <option value="" selected>在职状态</option>
+                        <option value="在职">在职</option>
+                        <option value="离职">离职</option>
+                        <option value="停职">停职</option>
+
+                    </select></td>
+                    <!--<td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="postId" name="postId"></td>-->
                 </tr>
                 <tr>
                     <th class="text-r">备注：</th>
@@ -169,7 +176,7 @@
                 <!--</tr>-->
                 <tr>
                     <th class="text-r">最后修改时间：</th>
-                    <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" id="lastchangeTime" name="lastchangeTime" class="input-text Wdate"></td>
+                    <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" id="lastchangeTime" name="lastchangeTime" class="input-text Wdate" style="width:300px"class="input-text Wdate" style="width:300px"></td>
                 </tr>
 
 
@@ -230,6 +237,7 @@ $(function(){
                 $("#school").val(obj.school);
                 $("#onlineContact").val(obj.onlineContact);
                 $("#contactinfo").val(obj.contactinfo);
+                $("#phone").val(obj.phone);
                 // $("#companyId").val(obj.companyId);
 			}
 		});

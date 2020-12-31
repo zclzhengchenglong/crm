@@ -128,9 +128,9 @@ public class SysCompanyController {
 
         return new R(200,"删除成功！");
     }
-    @RequestMapping("/selectRoles.do")
-    @ResponseBody
-    public List<SysCompany> selectRoles() {
-        return this.sysCompanyService.selectRoles();
-    }
+//    @RequestMapping("/selectRoles.do")
+//    @ResponseBody
+//    public List<SysCompany> selectRoles() {
+//        return this.sysCompanyService.selectRoles();
+//    }
 }

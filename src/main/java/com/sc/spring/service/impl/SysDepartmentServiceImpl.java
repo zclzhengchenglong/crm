@@ -2,10 +2,7 @@ package com.sc.spring.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sc.spring.entity.SysDepartment;
-import com.sc.spring.entity.SysDepartmentExample;
-import com.sc.spring.entity.SysLog;
-import com.sc.spring.entity.SysLogExample;
+import com.sc.spring.entity.*;
 import com.sc.spring.mapper.SysDepartmentMapper;
 import com.sc.spring.service.SysDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,5 +113,8 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
 //    }
 
 
-
+    @Override
+    public List<SysDepartment> selectRoles() {
+        return this.sysDepartmentMapper.selectByExample(null);
+    }
 }

@@ -110,8 +110,16 @@
                 </tr>
 
                 <tr>
-                    <th class="text-r">备注信息：</th>
-                    <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="remarks" name="remarks"></td>
+                    <!--<tr>-->
+                    <th class="text-r">部门编号：</th>
+                    <td>
+                    <select class="select" id="roleDiv" name="roleDiv" class="input-text" style="width:300px">
+                    <option value="" selected id="departmentId">选择部门</option>
+                    </select>
+                    </td>
+                    <!--<td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="companyId" name="companyId"></td>-->
+                    <!--<th class="text-r">部门编号：</th>-->
+                    <!--<td><input type="text" style="width:300px" class="input-text" value="1" placeholder="" id="departmentId" name="departmentId"></td>-->
                 </tr>
                 <!--<tr>-->
                     <!--<th class="text-r">公司编号：</th>-->
@@ -119,7 +127,7 @@
                 <!--</tr>-->
                 <tr>
                     <th class="text-r">最后修改时间：</th>
-                    <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" id="lastchangeTime" name="lastchangeTime" class="input-text Wdate" style="width:300px" class="input-text"></td>
+                    <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" id="lastchangeTime" name="lastchangeTime" class="input-text Wdate" style="width:300px" class="input-text">1</td>
                 </tr>
 
 
@@ -156,6 +164,19 @@
         }
         return theRequest}
     $(function(){
+        //获取用户下拉框start
+        $.ajax({
+            type: 'post',
+            url: "sysdepartment/selectRoles.do",
+            dataType:"json",
+            success: function(obj){
+                console.log(obj);
+                for(var i in obj){
+                    $("#roleDiv").append("<option value='"+obj[i].departId+"'>"+obj[i].departmentName+"</option>");
+                }
+            }
+        });
+//获取用户下拉框end
 
         //根据传递过来的主键编号获取对象，显示原来的信息
         var postId=RequestParameter()["postId"];
@@ -171,7 +192,7 @@
                     console.log(obj);
                     $("#postId").val(obj.postId);
                     $("#postName").val(obj.postName);
-                    $("#remarks").val(obj.remarks);
+                    $("#departmentId").val(obj.departmentId);
                     // $("#companyId").val(obj.companyId);
                     $("#lastchangeTime").val(obj.lastchangeTime);
                 }
