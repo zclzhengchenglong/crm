@@ -1,5 +1,6 @@
 package com.sc.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public class OfficeTest implements Serializable {
     private String remarks;
 
     private String companyNumber;
+
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastModificationTime;
@@ -55,6 +57,7 @@ public class OfficeTest implements Serializable {
         this.companyNumber = companyNumber;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getLastModificationTime() {
         return lastModificationTime;
     }

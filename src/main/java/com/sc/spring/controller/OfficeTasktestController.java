@@ -6,11 +6,20 @@ import com.github.pagehelper.PageInfo;
 import com.sc.spring.entity.*;
 import com.sc.spring.service.OfficeTaskdetservice;
 import com.sc.spring.service.OfficeTasktestservice;
+import com.sc.spring.service.SysUseraccountService;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.java2d.opengl.OGLContext;
+
+import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 
 /**
  * 类名：OfficeTaskdetController
@@ -25,6 +34,11 @@ public class OfficeTasktestController {
     @Autowired
     OfficeTasktestservice officeTasktestservice;
 
+    @Autowired
+    OfficeTaskdetservice officeTaskdetservice;
+
+    @Autowired
+    SysUseraccountService sysUseraccountService;
 
     @RequestMapping("/select.do")
     @ResponseBody
@@ -68,6 +82,10 @@ public class OfficeTasktestController {
             {
                 datemax = obj.getString("value");
             }
+            if (obj.get("name").equals("search"))
+            {
+                datemax = obj.getString("search");
+            }
         }
 
         PageInfo<OfficeTasktest> pageInfo = officeTasktestservice.selectpage(iDisplayStart/iDisplayLength+1, iDisplayLength, null,datemin,datemax,search);
@@ -84,19 +102,46 @@ public class OfficeTasktestController {
 
     @RequestMapping("/add.do")
     @ResponseBody
-    public R add(OfficeTasktest officeTasktest) {
-        System.out.println("---"+officeTasktest);
-        // if(officeTest!=null&&officeTest.getIndexId()!=null&&!officeTest.getIndexId().equals("")){
-        if(officeTasktest!=null&&officeTasktest.getTaskId()!=null&&!officeTasktest.getTaskId().equals("")){
-            this.officeTasktestservice.update(officeTasktest);
-            return new R(200,"修改成功！！！");
-        }
-        else{
-            this.officeTasktestservice.add(officeTasktest);
-            return new R(200,"添加成功");
-        }
+    public R add(OfficeTasktest officeTasktest,HttpSession session ) {
+           SysUseraccount nowuser = (SysUseraccount) session.getAttribute("nowuser");
+           officeTasktest.setCompanyNumber(nowuser.getCompanyId()+"");//从session中获取当前登录人的部门编号
+           officeTasktest.setTaskPublisher(nowuser.getUserName());//从session中获取当前登录人
+           Date d=new Date();
+           officeTasktest.setLastModificationTime(d);
 
+        // if(officeTest!=null&&officeTest.getIndexId()!=null&&!officeTest.getIndexId().equals("")){
+        if (officeTasktest!= null && officeTasktest.getTaskId() != null&& !officeTasktest.getTaskId().equals("")) {
+            this.officeTasktestservice.update(officeTasktest);
+            return new R(200, "修改成功！！！");
+        } else {
+            String[] recevier = null;
+
+            if (officeTasktest.getRecevier() != null && !officeTasktest.getRecevier().equals("")) {//判断发布者不为空
+                recevier = officeTasktest.getRecevier().split(",");
+            }
+
+           if (recevier != null && recevier.length > 0) {
+               this.officeTasktestservice.add(officeTasktest);
+                for (int i = 0; i < recevier.length; i++) {
+                    System.out.println("========接受任务的编号======" + recevier[i]);
+
+                    OfficeTaskdet officeTaskdet = new OfficeTaskdet();
+                    officeTaskdet.setState("已分配");
+                    officeTaskdet.setItIsCompeleted("未完成");
+                    officeTaskdet.setLastModificationTime(new Date());
+                    officeTaskdet.setTaskId(new String(officeTasktest.getTaskId()));
+                    officeTaskdet.setAcceptUserNumber(recevier[i]);
+                    officeTaskdet.setCompanyNumber(nowuser.getCompanyId()+"");//从session中获取当前登录人的部门编号
+                    officeTaskdet.setLastModificationTime(d);
+                    this.officeTaskdetservice.add(officeTaskdet);
+                }
+            }
+
+            return new R(200, "添加成功");
+        }
     }
+
+
     @RequestMapping("/del.do")
     @ResponseBody
     public R del(String taskId){
@@ -127,6 +172,11 @@ public class OfficeTasktestController {
         }
 
         return new R(200,"删除成功！");
+    }
+    @RequestMapping("/selectRoles.do")
+    @ResponseBody
+    public List<OfficeTasktest> selectRoles() {
+        return this.officeTasktestservice.selectRoles();
     }
 
 }

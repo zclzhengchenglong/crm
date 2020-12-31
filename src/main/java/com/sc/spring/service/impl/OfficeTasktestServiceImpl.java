@@ -2,19 +2,14 @@ package com.sc.spring.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sc.spring.entity.OfficeTaskdet;
-import com.sc.spring.entity.OfficeTaskdetExample;
-import com.sc.spring.entity.OfficeTasktest;
-import com.sc.spring.entity.OfficeTasktestExample;
+import com.sc.spring.entity.*;
 import com.sc.spring.mapper.OfficeTaskdetMapper;
 import com.sc.spring.mapper.OfficeTasktestMapper;
-import com.sc.spring.service.OfficeTaskdetservice;
+import com.sc.spring.mapper.SysUseraccountMapper;
 import com.sc.spring.service.OfficeTasktestservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -29,45 +24,37 @@ public class OfficeTasktestServiceImpl implements OfficeTasktestservice {
     @Autowired
     OfficeTasktestMapper officeTasktestMapper;
 
+    @Autowired
+    OfficeTaskdetMapper officeTaskdetMapper;
+
+    @Autowired
+    SysUseraccountMapper sysUseraccountMapper;
+
 
     @Override
-    public PageInfo<OfficeTasktest> selectpage(int pageNum, int pageSize, OfficeTasktest OfficeTasktest, String datemin, String datemax, String search) {
+    public PageInfo<OfficeTasktest> selectpage(int pageNum, int pageSize, OfficeTaskdet officeTaskdet, String datemin, String datemax, String search) {
         PageHelper.startPage(pageNum, pageSize);
-        OfficeTasktestExample example = new OfficeTasktestExample();
 
+           /* officeTaskdet=new OfficeTaskdet();
 
-        OfficeTasktestExample.Criteria criteria = example.createCriteria();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if (datemin != null && !datemin.equals("")) {
-            try {
-                criteria.andLastModificationTimeEqualTo(sdf.parse(datemin));
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(search!=null&&!search.equals("")){
+                officeTaskdet.setCompanyNumber("%"+search+"%");
             }
-        }
-        if (datemax != null && !datemax.equals("")) {
-            try {
-                criteria.andLastModificationTimeLessThanOrEqualTo(sdf.parse(datemax));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-            if (search != null && !search.equals("")) {
-                criteria.andTaskTitleLike("%" + search + "%");
-                //criteria.andHandlewayLike("%" + search + "%");
-            }
+            List<OfficeTaskdet> list = officeTaskdetMapper.selectofficeTaskdetAndMes(officeTaskdet);
+*/
 
-            example.setOrderByClause("TASK_ID DESC");
+            OfficeTasktestExample example=new OfficeTasktestExample();
+            OfficeTasktestExample.Criteria criteria = example.createCriteria();
+
+            if(search!=null&&!search.equals("")){
+                criteria.andTaskTitleLike("%"+search+"%");
+            }
             List<OfficeTasktest> list = officeTasktestMapper.selectByExample(example);
+
             PageInfo<OfficeTasktest> pageInfo = new PageInfo<OfficeTasktest>(list);
             return pageInfo;
         }
 
-        @Override
-        public PageInfo<OfficeTasktest> selectpage ( int pageNum, int pageSize, OfficeTasktest officeTasktest){
-
-            return null;
-        }
 
         @Override
         public void add (OfficeTasktest officeTasktest){
@@ -87,6 +74,17 @@ public class OfficeTasktestServiceImpl implements OfficeTasktestservice {
     @Override
     public OfficeTasktest get(String indexId) {
         return this.officeTasktestMapper.selectByPrimaryKey(indexId);
+    }
+
+    @Override
+    public List<SysUseraccount> selectUsers() {
+        return sysUseraccountMapper.selectByExample(null);
+    }
+
+
+    @Override
+    public List<OfficeTasktest> selectRoles() {
+        return this.officeTasktestMapper.selectByExample(null);
     }
 
 }

@@ -22,33 +22,33 @@
 <title>考核指标表格页面</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户指标 <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 任务管理 <span class="c-gray en">&gt;</span> 发布任务 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<form id="myform">
 		<div class="text-c"> 日期范围：
 			<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
 			-
 			<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
-			<input type="text" class="input-text" style="width:250px" placeholder="输入客户名称、电话、邮箱" id="search" name="search">
-			<button type="button" onclick="search1()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜索任务指标</button>
+			<input type="text" class="input-text" style="width:250px" placeholder="输入任务标题" id="search" name="search">
+			<button type="button" onclick="search1()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜索任务</button>
 		</div>
 	</form>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-        <a href="javascript:;" onclick="member_add('添加用户','officetasktest-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加任务指标</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+        <a href="javascript:;" onclick="member_add('发布任务','officetasktest-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 发布任务</a></span> <span class="r">共有数据：<strong id="st"></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
-				<th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="80">任务编号</th>
-				<th width="100">任务标题</th>
-				<th width="40"> 任务具体内容</th>
-				<th width="90">任务发布人</th>
-				<th width="150">考核指标</th>
-				<th width="">任务开始时间</th>
-				<th width="130">任务结束时间</th>
-				<th width="70">公司编号</th>
-				<th width="70">修改时间</th>
+				<th width="10"><input type="checkbox" name="" value=""></th>
+				<th width="50">任务编号</th>
+				<th width="80">任务标题</th>
+				<th width=""> 任务具体内容</th>
+				<th width="70">任务发布人</th>
+				<th width="50">考核指标</th>
+				<th width="100">任务开始时间</th>
+				<th width="100">任务结束时间</th>
+				<th width="50">公司编号</th>
+				<th width="100">修改时间</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -104,7 +104,11 @@ $(function(){
 			{"data": "companyNumber","bSortable": true},
 			{"data": "lastModificationTime","bSortable": true},
 			{"data": "","bSortable":false,"render":function(data,type,row){
-				return '<td class="td-manage"><a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'officetasktest-add.html\','+row.taskId+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  <a title="删除" href="javascript:;" onclick="member_del(this,'+row.taskId+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
+				return '<td class="td-manage">' +
+						//'<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'officetasktest-add.html\','+row.taskId+',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> ' +
+						' <a title="删除" href="javascript:;" onclick="member_del(this,'+row.taskId+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>' +
+						'<a title="考核详情" href="officetestdet-select.html?taskId='+row.taskId+'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></td>'
+						;
 			}}
 		],
 		"aoColumnDefs": [

@@ -34,9 +34,11 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>任务标题：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="taskId" name="taskId">
+				<input type="hidden" id="taskId" name="taskId">
+				<input type="text" class="input-text" value="" placeholder="" id="taskTitle" name="taskTitle">
 			</div>
 		</div>
+
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">任务具体内容：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -44,16 +46,34 @@
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
 			</div>
 		</div>
-		<div class="row cl">
+		<!--<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>任务发布人：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="taskPublisher" name="taskPublisher">
 			</div>
-		</div>
+		</div>-->
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>考核指标集：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="assessmentIndex" name="assessmentIndex">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>任务接收人：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" multiple id="recevier" name="recevier">
+					<option value="" selected>请选择接收人</option>
+				</select>
+				</span>
+			</div>
+		</div>
+		<!--<div class="row cl">-->
+			<!--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>考核指标集：</label>-->
+			<!--<div class="formControls col-xs-8 col-sm-9">-->
+				<!--<input type="text" class="input-text" value="" placeholder="" id="assessmentIndex" name="assessmentIndex">-->
+			<!--</div>-->
+		<!--</div>-->
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>考核指标集：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+			  <select class="select" id="assessmentIndex" name="assessmentIndex">
+				 <option value="" selected>请选择考核指标集</option>
+			  </select>
+			  </span>
 			</div>
 		</div>
 		<div class="row cl">
@@ -89,8 +109,9 @@
 <script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
-function RequestParameter(){
-	var url = window.location.search; //获取url中"?"符后的字串
+	var url = window.location.search;
+	function RequestParameter(){
+	//获取url中"?"符后的字串
 	var theRequest = new Object();
 	if (url.indexOf("?") != -1) {
 		var str = url.substr(1);
@@ -102,9 +123,36 @@ function RequestParameter(){
 	return theRequest}
 $(function(){
 
+	$.ajax({
+		type: 'post',
+		url: "OfficeTestctl/selectRoles.do",
+		dataType:"json",
+		success: function(obj){
+			console.log(obj);
+			for(var i in obj){
+				$("#assessmentIndex").append("<option value='"+obj[i].assessmentIndex+"'>"+obj[i].assessmentIndex+"</option>");
+			}
+		}
+	});
+
+
+	//获取用户下拉框start
+	$.ajax({
+		type: 'post',
+		url: "officemes/selectUsers.do",
+		dataType:"json",
+		success: function(obj){
+			console.log(obj);
+			for(var i in obj){
+				$("#recevier").append("<option value='"+obj[i].userId+"'>"+obj[i].userName+"</option>");
+			}
+		}
+	});
+	//获取用户下拉框end
+
 	//根据传递过来的主键编号获取对象，显示原来的信息
 	var taskId=RequestParameter()["taskId"];
-	if(taskId!='undefined'){
+	if(taskId!=undefined){
 		$("#taskId").val(taskId);
 
 		$.ajax({
@@ -119,6 +167,7 @@ $(function(){
 				$("#taskPublisher").val(obj.taskPublisher);
 				$("#taskStartTime").val(obj.taskStartTime);
 				$("#taskEndTime").val(obj.taskEndTime);
+				$("#acceptUserNumber").val(obj.acceptUserNumber);
 			}
 		});
 
@@ -147,6 +196,9 @@ $(function(){
 			taskEndTime:{
 				required:true,
 			},
+			acceptUserNumber:{
+				required:true,
+			}
 
 
 		},

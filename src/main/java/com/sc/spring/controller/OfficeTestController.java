@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 类名：OfficeTaskdetController
@@ -86,8 +88,11 @@ public class OfficeTestController {
 
     @RequestMapping("/add.do")
     @ResponseBody
-    public R add(OfficeTest officeTest) {
-        System.out.println("---"+officeTest);
+    public R add(OfficeTest officeTest, HttpSession session ) {
+        System.out.println("11111111111111111111111111111"+officeTest);
+        SysUseraccount nowuser = (SysUseraccount) session.getAttribute("nowuser");
+        officeTest.setCompanyNumber(nowuser.getCompanyId()+"");//从session中获取当前登录人的部门编号
+
         if(officeTest!=null&&officeTest.getIndexId()!=null&&!officeTest.getIndexId().equals("")){
             this.officeTestservice.update(officeTest);
             return new R(200,"修改成功！！！");
@@ -128,6 +133,11 @@ public class OfficeTestController {
         }
 
         return new R(200,"删除成功！");
+    }
+    @RequestMapping("/selectRoles.do")
+    @ResponseBody
+    public List<OfficeTest> selectRoles() {
+        return this.officeTestservice.selectRoles();
     }
 
 }

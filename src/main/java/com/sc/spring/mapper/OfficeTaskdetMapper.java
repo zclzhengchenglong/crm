@@ -27,4 +27,11 @@ public interface OfficeTaskdetMapper {
     int updateByPrimaryKeySelective(OfficeTaskdet record);
 
     int updateByPrimaryKey(OfficeTaskdet record);
+
+    List<OfficeTaskdet> selectofficeTaskdetAndMes(OfficeTaskdet officeTaskdet);
+
+    List<OfficeTaskdet> selectofficeTaskdetMy(OfficeTaskdet officeTaskdet);
+
+    List<OfficeTaskdet> selectofficeTaskdet(OfficeTaskdet officeTaskdet);
+
 }
