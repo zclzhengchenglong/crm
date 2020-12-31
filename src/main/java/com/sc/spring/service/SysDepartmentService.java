@@ -1,8 +1,11 @@
 package com.sc.spring.service;
 
 import com.github.pagehelper.PageInfo;
+import com.sc.spring.entity.SysCompany;
 import com.sc.spring.entity.SysDepartment;
 import com.sc.spring.entity.SysUsermes;
+
+import java.util.List;
 
 /**
  * 类名：SaleClientlossService
@@ -22,5 +25,6 @@ public interface SysDepartmentService {
     public void update(SysDepartment sysDepartment);
 
     public SysDepartment get(Long departId);
+    public List<SysDepartment> selectRoles();
 
 }

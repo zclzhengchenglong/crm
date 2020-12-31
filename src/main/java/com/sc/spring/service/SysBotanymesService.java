@@ -2,7 +2,10 @@ package com.sc.spring.service;
 
 import com.github.pagehelper.PageInfo;
 import com.sc.spring.entity.SysBotanymes;
+import com.sc.spring.entity.SysCompany;
 import com.sc.spring.entity.SysUsermes;
+
+import java.util.List;
 
 /**
  * 类名：SaleClientlossService
@@ -22,5 +25,5 @@ public interface SysBotanymesService {
     public void update(SysBotanymes sysBotanymes);
 
     public SysBotanymes get(Long postId);
-
+//    public List<SysBotanymes> selectRoles();
 }

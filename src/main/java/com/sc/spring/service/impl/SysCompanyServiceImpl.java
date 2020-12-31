@@ -24,6 +24,7 @@ import java.util.List;
  */
 @Service
 public class SysCompanyServiceImpl implements SysCompanyService {
+
     @Autowired
     SysCompanyMapper sysCompanyMapper;
 
@@ -100,4 +101,3 @@ public class SysCompanyServiceImpl implements SysCompanyService {
     }
 
 }
-
