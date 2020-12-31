@@ -27,48 +27,53 @@ public class OfficeTaskdetServiceImpl implements OfficeTaskdetservice {
 
 
     @Override
-    public PageInfo<OfficeTaskdet> selectpage(int pageNum, int pageSize, OfficeTaskdet OfficeTaskdet, String datemin, String datemax, String search) {
+    public PageInfo<OfficeTaskdet> selectpage(int pageNum, int pageSize, OfficeTaskdet officeTaskdet, String datemin, String datemax, String search) {
         PageHelper.startPage(pageNum,pageSize);
 
-
-        OfficeTaskdetExample example=new OfficeTaskdetExample();
-
-
-        OfficeTaskdetExample.Criteria criteria = example.createCriteria();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        if(datemin!=null&&!datemin.equals("")){
-            try {
-
-                criteria.andLastModificationTimeGreaterThanOrEqualTo(sdf.parse(datemin));//上次修改时间大于或等于
-                //criteria.aszttimeGreaterThanOrEqualTo(sdf.parse(datemin));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        if(datemax!=null&&!datemax.equals("")){
-            try {
-                criteria.andLastModificationTimeLessThanOrEqualTo(sdf.parse(datemax));//上次修改时间超过或等于
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        if(search!=null&&!search.equals("")){
-            criteria.andAcceptUserNumberLike("%"+search+"%");//通过接受用户编号来实现
-            //criteria.andAssessmentIndexLike("%"+search+"%");//通过AssessmentIndex属性来搜索
+        officeTaskdet=new OfficeTaskdet();
+        //判断 模糊查询的 search 为空，走全部显示；若 模糊查询的 search 有值，则走模糊查询
+        if (search!=null&&!search.equals("")){
+            officeTaskdet.setAcceptUserNumber("%"+search+"%");
         }
 
-        example.setOrderByClause("OFFICE_ID DESC");//这个是表的主键来降序
-        List<OfficeTaskdet> list = officeTaskdetMapper.selectByExample(example);
-        PageInfo<OfficeTaskdet> pageInfo = new PageInfo<OfficeTaskdet>(list);
+        //关联查询 定义的 集合
+        List<OfficeTaskdet> list=officeTaskdetMapper.selectofficeTaskdetAndMes(officeTaskdet);
+        PageInfo<OfficeTaskdet>   pageInfo=new PageInfo<OfficeTaskdet>(list);
         return pageInfo;
     }
 
     @Override
-    public PageInfo<OfficeTaskdet> selectpage(int pageNum, int pageSize, OfficeTaskdet officeTaskdet) {
+    public PageInfo<OfficeTaskdet> selectpagemy(int pageNum, int pageSize, OfficeTaskdet officeTaskdet, String datemin, String datemax, String search) {
+        PageHelper.startPage(pageNum,pageSize);
 
-        return null;
+        //判断 模糊查询的 search 为空，走全部显示；若 模糊查询的 search 有值，则走模糊查询
+        if (search!=null&&!search.equals("")){
+            //officeTaskdet.setAcceptUserNumber("%"+search+"%");
+            officeTaskdet.setState("%"+search+"%");
+        }
+
+        //关联查询 定义的 集合
+        List<OfficeTaskdet> list=officeTaskdetMapper.selectofficeTaskdetMy(officeTaskdet);
+        PageInfo<OfficeTaskdet>   pageInfo=new PageInfo<OfficeTaskdet>(list);
+        return pageInfo;
     }
+
+    @Override
+    public PageInfo<OfficeTaskdet> selectpagedet(int pageNum, int pageSize, OfficeTaskdet officeTaskdet, String datemin, String datemax, String search) {
+        PageHelper.startPage(pageNum,pageSize);
+
+        //判断 模糊查询的 search 为空，走全部显示；若 模糊查询的 search 有值，则走模糊查询
+        if (search!=null&&!search.equals("")){
+            //officeTaskdet.setAcceptUserNumber("%"+search+"%");
+            officeTaskdet.setState("%"+search+"%");
+        }
+
+        //关联查询 定义的 集合
+        List<OfficeTaskdet> list=officeTaskdetMapper.selectofficeTaskdet(officeTaskdet);
+        PageInfo<OfficeTaskdet>   pageInfo=new PageInfo<OfficeTaskdet>(list);
+        return pageInfo;
+    }
+
 
     @Override
     public void add(OfficeTaskdet officeTaskdet) {
@@ -88,5 +93,10 @@ public class OfficeTaskdetServiceImpl implements OfficeTaskdetservice {
     @Override
     public OfficeTaskdet get(Long officeId) {
         return this.officeTaskdetMapper.selectByPrimaryKey(officeId);
+    }
+
+    @Override
+    public List<OfficeTaskdet> selectRoles() {
+        return this.officeTaskdetMapper.selectByExample(null);
     }
 }

@@ -1,8 +1,11 @@
 package com.sc.spring.service;
 
 import com.github.pagehelper.PageInfo;
+import com.sc.spring.entity.OfficeTaskdet;
 import com.sc.spring.entity.OfficeTasktest;
-import com.sc.spring.entity.OfficeTest;
+import com.sc.spring.entity.SysUseraccount;
+
+import java.util.List;
 
 /**
  * 类名：OfficeTaskdetservice
@@ -12,9 +15,8 @@ import com.sc.spring.entity.OfficeTest;
  * 版本：V1.0
  */
 public interface OfficeTasktestservice {
-    public PageInfo<OfficeTasktest> selectpage(int pageNum, int pageSize, OfficeTasktest OfficeTasktest, String datemin, String datemax, String search);//搜索
+    public PageInfo<OfficeTasktest> selectpage(int pageNum, int pageSize, OfficeTaskdet officeTaskdet, String datemin, String datemax, String search);//搜索
 
-    PageInfo<OfficeTasktest> selectpage(int pageNum, int pageSize, OfficeTasktest officeTasktest);//查询
 
     void add(OfficeTasktest officeTasktest);//t添加
 
@@ -22,6 +24,9 @@ public interface OfficeTasktestservice {
 
     void update(OfficeTasktest officeTasktest);//修改
 
+    public List<OfficeTasktest> selectRoles();
 
     OfficeTasktest get(String taskId);
+
+    public List<SysUseraccount> selectUsers(); //显示下拉框的发送人
 }

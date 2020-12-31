@@ -1,5 +1,6 @@
 package com.sc.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -28,6 +29,16 @@ public class OfficeTasktest implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastModificationTime;
+
+    private String recevier;
+
+    public String getRecevier() {
+        return recevier;
+    }
+
+    public void setRecevier(String recevier) {
+        this.recevier = recevier;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -95,6 +106,7 @@ public class OfficeTasktest implements Serializable {
         this.companyNumber = companyNumber;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getLastModificationTime() {
         return lastModificationTime;
     }

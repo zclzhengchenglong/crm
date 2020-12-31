@@ -235,15 +235,84 @@
       LAST_MODIFICATION_TIME = #{lastModificationTime,jdbcType=TIMESTAMP}
     where OFFICE_ID = #{officeId,jdbcType=DECIMAL}
   </update>
-<!--<resultMap id="officeTaskdetMap" type="com.sc.spring.entity.OfficeTaskdet">-->
-  <!--<id column="OFFICE_ID" jdbcType="DECIMAL" property="officeId"></id>-->
-  <!--<result column="TASK_ID" jdbcType="DECIMAL" property="taskId"></result>-->
-  <!--<result column="ACCEPT_USER_NUMBER" jdbcType="DECIMAL" property="acceptUserNumber"></result>-->
-  <!--<result column="IT_IS_COMPELETED" jdbcType="VARCHER" property="itIsCompeleted"></result>-->
-  <!--<result column="STATE" jdbcType="VARCHER" property="state"></result>-->
-  <!--<result column="COMPANY_NUMBER" jdbcType="DECIMAL" property="companyNumber"></result>-->
-  <!--<result column="LAST_MODIFICATION_TIME" jdbcType="TIMESTAMP" property="lastModificationTime"></result>-->
-<!--</resultMap>-->
+<resultMap id="officeTaskdetMap" type="com.sc.spring.entity.OfficeTaskdet">
+  <id column="OFFICE_ID" jdbcType="DECIMAL" property="officeId" />
+  <result column="TASK_ID" jdbcType="VARCHAR" property="taskId" />
+  <result column="ACCEPT_USER_NUMBER" jdbcType="VARCHAR" property="acceptUserNumber" />
+  <result column="IT_IS_COMPELETED" jdbcType="VARCHAR" property="itIsCompeleted" />
+  <result column="STATE" jdbcType="VARCHAR" property="state" />
+  <result column="COMPANY_NUMBER" jdbcType="VARCHAR" property="companyNumber" />
+  <result column="LAST_MODIFICATION_TIME" jdbcType="TIMESTAMP" property="lastModificationTime" />
+  <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
 
+  <association property="officeTasktest" javaType="com.sc.spring.entity.OfficeTasktest">
+    <id column="TASK_ID" jdbcType="VARCHAR" property="taskId" />
+    <result column="TASK_TITLE" jdbcType="VARCHAR" property="taskTitle" />
+    <result column="TASK_SPECIFIC_CONTENT" jdbcType="VARCHAR" property="taskSpecificContent" />
+    <result column="TASK_PUBLISHER" jdbcType="VARCHAR" property="taskPublisher" />
+    <result column="ASSESSMENT_INDEX" jdbcType="VARCHAR" property="assessmentIndex" />
+    <result column="TASK_START_TIME" jdbcType="VARCHAR" property="taskStartTime" />
+    <result column="TASK_END_TIME" jdbcType="VARCHAR" property="taskEndTime" />
+    <result column="COMPANY_NUMBER" jdbcType="VARCHAR" property="companyNumber" />
+    <result column="LAST_MODIFICATION_TIME" jdbcType="TIMESTAMP" property="lastModificationTime" />
+  </association>
+</resultMap>
+  <select id="selectofficeTaskdetAndMes" parameterType="com.sc.spring.entity.OfficeTaskdet"
+          resultMap="officeTaskdetMap">
+    select * from OFFICE_TASKDET omd
+    INNER JOIN OFFICE_TASKTEST oms
+    on  OMD.TASK_ID=OMS.TASK_ID
+    <where>
+      <if test="state!=null">
+        oms.taskSpecificContent like #{state}
+        or
+        oms.taskPublisher like #{state}
+        or
+        oms.assessmentIndex like #{state}
+        or
+        oms.taskStartTime like #{state}
+        or
+        oms.taskEndTime like #{state}
 
+      </if>
+    </where>
+    order by omd.OFFICE_ID DESC
+
+  </select>
+
+  <select id="selectofficeTaskdetMy" parameterType="com.sc.spring.entity.OfficeTaskdet"
+          resultMap="officeTaskdetMap">
+    select * from OFFICE_TASKDET omd
+    INNER JOIN OFFICE_TASKTEST oms
+    on  OMD.TASK_ID=OMS.TASK_ID
+    <where>
+      <if test="state!=null">
+        and oms.TASK_TITLE like #{state}
+      </if>
+      <if test="acceptUserNumber!=null">
+        and omd.ACCEPT_USER_NUMBER = #{acceptUserNumber}
+      </if>
+    </where>
+    order by omd.OFFICE_ID DESC
+
+  </select>
+
+  <select id="selectofficeTaskdet" parameterType="com.sc.spring.entity.OfficeTaskdet"
+          resultMap="officeTaskdetMap">
+    select * from OFFICE_TASKDET omd
+    left JOIN OFFICE_TASKTEST oms
+    on  OMD.TASK_ID=OMS.TASK_ID
+    left join SYS_USERACCOUNT us
+    on omd.ACCEPT_USER_NUMBER=us.user_Id
+    <where>
+      <if test="state!=null">
+        and oms.TASK_TITLE like #{state}
+      </if>
+      <if test="taskId!=null">
+        and omd.TASK_ID = #{taskId}
+      </if>
+    </where>
+    order by omd.OFFICE_ID DESC
+
+  </select>
 </mapper>

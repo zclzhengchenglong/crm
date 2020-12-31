@@ -3,6 +3,8 @@ package com.sc.spring.service;
 import com.github.pagehelper.PageInfo;
 import com.sc.spring.entity.OfficeTest;
 
+import java.util.List;
+
 /**
  * 类名：OfficeTaskdetservice
  * 描述：一段话描述类的信息
@@ -23,4 +25,6 @@ public interface OfficeTestservice {
     void update(OfficeTest officeTest);//修改
 
     OfficeTest get(String indexId);
+
+    public List<OfficeTest> selectRoles();
 }

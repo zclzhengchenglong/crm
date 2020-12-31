@@ -86,4 +86,10 @@ public class OfficeTestServiceImpl implements OfficeTestservice {
     public OfficeTest get(String indexId) {
        return this.officeTestMapper.selectByPrimaryKey(indexId);
     }
+
+    @Override
+    public List<OfficeTest> selectRoles() {
+        return this.officeTestMapper.selectByExample(null);
+    }
+
 }
